@@ -11,7 +11,7 @@ def enviarTransaccion(sock, servicio, contenido):
     # Generacion de la transaccion
     # validacion de argumentos
     if len(servicio) < 5 or len(contenido) < 1:
-        print("los argumentos no cumplen con los requerimietos")
+        print("Servicio: Los argumentos no cumplen con los requerimietos")
         return
     # contruccion de la transaccion
     largoTransaccion = str(len(contenido) + 5)
@@ -19,7 +19,7 @@ def enviarTransaccion(sock, servicio, contenido):
         largoTransaccion = "0" + largoTransaccion
 
     transaccion = largoTransaccion + servicio + contenido
-    print("transaccion:",transaccion)
+    print("Servicio: transaccion-",transaccion)
     sock.sendall(transaccion.encode())
     
 
@@ -43,9 +43,9 @@ def registrarServicio(sock, nombreServicio="test1"):
     enviarTransaccion(sock, "sinit", nombreServicio)
     serv, msg = escucharBus(sock)
     if serv =="sinit" and msg[:2]=="OK":
-        print("servicio iniciado con exito")
+        print("Servicio: Servicio iniciado con exito")
     else:
-        print("no se pudo iniciar el servicio")
+        print("Servicio: No se pudo iniciar el servicio")
     
     
 
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
         # Connect the socket to the port where the server is listening
         server_address = ('localhost', 5000)
-        print('conectandose a {} puerto {}'.format(*server_address))
+        print('Servicio: Conectandose a {} puerto {}'.format(*server_address))
         sock.connect(server_address)
     # En caso de error cierra la aplicacion
     except: 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         serv, msg=escucharBus(sock)
         if serv == SERVICIO:
             print(msg)
-            sock.sendall("probando".encode())
+            enviarTransaccion(sock,SERVICIO,"test de respuesta")
 
     print('cerrando socket')
     sock.close()

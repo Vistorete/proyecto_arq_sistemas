@@ -29,8 +29,10 @@ def enviarTransaccion(sock, servicio, contenido):
         data = sock.recv(4096)
         amount_received += len(data)
         # print('received {!r}'.format(data))
-        tamaño_transaccion = int(data[:5].decode())
-        print("tamaño de transaccion:",tamaño_transaccion)
+        tamañoTransaccion = int(data[:5].decode())
+        print("tamaño de transaccion:",tamañoTransaccion)
+        msgTransaccion= data[5:5+tamañoTransaccion]
+        print("msg:",msgTransaccion)
 
 def escucharBus(sock):
     pass

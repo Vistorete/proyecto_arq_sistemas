@@ -21,31 +21,31 @@ def enviarTransaccion(sock, servicio, contenido):
     transaccion = largoTransaccion + servicio + contenido
     print("transaccion:",transaccion)
     sock.sendall(transaccion.encode())
-
-
-    # Respuesta de la transaccion
-    serv, msg = escucharBus(sock)
-    print("servicio:", serv)
-    print("msg:", msg)
+    
 
 
 def escucharBus(sock):
-    amount_received = 0
+    cantidadRecibida = 0
+    
     while True:
         data = sock.recv(4096)
-        amount_received += len(data)
-        print("data ricibida:",amount_received)
+        cantidadRecibida += len(data)
+        # print("data ricibida:",cantidadRecibida)
         # print('received {!r}'.format(data))
         tamañoTransaccion = int(data[:5].decode())
         nombreServicio = data[5:10].decode()
-        msgTransaccion= data[10:5+tamañoTransaccion]
-        print("tamaño de transaccion:",tamañoTransaccion)
-        print("msg:",msgTransaccion)
+        msgTransaccion= data[10:5+tamañoTransaccion].decode()
+        # print("tamaño de transaccion:",tamañoTransaccion)
+        # print("msg:",msgTransaccion)
         return nombreServicio, msgTransaccion
 
 def registrarServicio(sock, nombreServicio="test1"):
     enviarTransaccion(sock, "sinit", nombreServicio)
-
+    serv, msg = escucharBus(sock)
+    if serv =="sinit" and msg[:2]=="OK":
+        print("servicio iniciado con exito")
+    else:
+        print("no se pudo iniciar el servicio")
     
     
 

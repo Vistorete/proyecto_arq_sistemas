@@ -4,6 +4,9 @@
 import socket
 import sys
 
+SERVICIO = "autenticacion"
+
+
 def enviarTransaccion(sock, servicio, contenido):
     # Generacion de la transaccion
     # validacion de argumentos
@@ -11,7 +14,7 @@ def enviarTransaccion(sock, servicio, contenido):
         print("los argumentos no cumplen con los requerimietos")
         return
     # contruccion de la transaccion
-    largoTransaccion = str(len(contenido) + 10)
+    largoTransaccion = str(len(contenido) + 5)
     while len(largoTransaccion) <5:
         largoTransaccion = "0" + largoTransaccion
 
@@ -25,7 +28,9 @@ def enviarTransaccion(sock, servicio, contenido):
     while True:
         data = sock.recv(4096)
         amount_received += len(data)
-        print('received {!r}'.format(data))
+        # print('received {!r}'.format(data))
+        tamaño_transaccion = data[:5]
+        print(tamaño_transaccion)
 
 def registrarServicio(socket, nombreServicio="test1"):
     transaccion = "00010sinit" + nombreServicio

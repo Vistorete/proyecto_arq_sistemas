@@ -29,11 +29,15 @@ def enviarTransaccion(sock, servicio, contenido):
         data = sock.recv(4096)
         amount_received += len(data)
         # print('received {!r}'.format(data))
-        tamaño_transaccion = data[:5]
-        print(tamaño_transaccion)
+        tamaño_transaccion = int(data[:5].decode())
+        print("tamaño de transaccion:",tamaño_transaccion)
 
-def registrarServicio(socket, nombreServicio="test1"):
-    transaccion = "00010sinit" + nombreServicio
+def escucharBus(sock):
+    pass
+
+def registrarServicio(sock, nombreServicio="test1"):
+    enviarTransaccion(sock, "sinit", nombreServicio)
+
     
     
 
@@ -55,6 +59,6 @@ if __name__ == "__main__":
 
     
 
-    enviarTransaccion(sock, "sinit","test1")
+    registrarServicio(sock, "regis")
     print('cerrando socket')
     sock.close()

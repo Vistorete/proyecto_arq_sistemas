@@ -24,18 +24,24 @@ def enviarTransaccion(sock, servicio, contenido):
 
 
     # Respuesta de la transaccion
+    serv, msg = escucharBus(sock)
+    print("servicio:", serv)
+    print("msg:", msg)
+
+
+def escucharBus(sock):
     amount_received = 0
     while True:
         data = sock.recv(4096)
         amount_received += len(data)
+        print("data ricibida:",amount_received)
         # print('received {!r}'.format(data))
         tamañoTransaccion = int(data[:5].decode())
+        nombreServicio = data[5:10].decode()
+        msgTransaccion= data[10:5+tamañoTransaccion]
         print("tamaño de transaccion:",tamañoTransaccion)
-        msgTransaccion= data[5:5+tamañoTransaccion]
         print("msg:",msgTransaccion)
-
-def escucharBus(sock):
-    pass
+        return nombreServicio, msgTransaccion
 
 def registrarServicio(sock, nombreServicio="test1"):
     enviarTransaccion(sock, "sinit", nombreServicio)

@@ -13,7 +13,7 @@ sock.connect(server_address)
 try:
 
     # Send data
-    message = b'00015sumar 1 2'
+    message = b'00015test1Hola gente'
     print('sending {!r}'.format(message))
     sock.sendall(message)
 

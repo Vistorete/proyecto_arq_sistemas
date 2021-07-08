@@ -4,7 +4,7 @@
 import socket
 import sys
 
-SERVICIO = "autenticacion"
+SERVICIO = "auten" #autenticacion
 
 
 def enviarTransaccion(sock, servicio, contenido):
@@ -67,6 +67,11 @@ if __name__ == "__main__":
 
     
 
-    registrarServicio(sock, "regis")
+    registrarServicio(sock, SERVICIO)
+    while True:
+        serv, msg=escucharBus(sock)
+        if serv == SERVICIO:
+            print(msg)
+            
     print('cerrando socket')
     sock.close()

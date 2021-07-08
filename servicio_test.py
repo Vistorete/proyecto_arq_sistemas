@@ -72,6 +72,7 @@ if __name__ == "__main__":
         serv, msg=escucharBus(sock)
         if serv == SERVICIO:
             print(msg)
-            
+            sock.sendall("probando".encode())
+
     print('cerrando socket')
     sock.close()

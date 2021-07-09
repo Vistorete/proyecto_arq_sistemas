@@ -68,9 +68,11 @@ if __name__ == "__main__":
 
     while True:
         serv, msg=escucharBus(sock)
+        print("msg:")
         if serv == SERVICIO:
             print(msg)
-            enviarTransaccion(sock,{"respuesta":"Se registrado correctamente"}, SERVICIO)
+            respuesta = {"respuesta":"Se registrado correctamente"}
+            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
     print('cerrando socket')
     sock.close()

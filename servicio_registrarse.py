@@ -40,7 +40,7 @@ def escucharBus(sock):
         return nombreServicio, json.loads(msgTransaccion)
 
 def registrarServicio(sock):
-    enviarTransaccion(sock, SERVICIO, "sinit")
+    enviarTransaccion(sock, "sinit",SERVICIO)
     cantidadRecibida = 0
     
     while True:

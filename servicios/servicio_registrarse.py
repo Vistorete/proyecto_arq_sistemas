@@ -88,6 +88,7 @@ if __name__ == "__main__":
 
     while True:
         serv, msg=escucharBus(sock)
+        print(serv, msg)
         if serv == SERVICIO:
             registrarUsuario(registro=json.loads(msg))
 

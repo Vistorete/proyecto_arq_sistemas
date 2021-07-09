@@ -40,7 +40,7 @@ def escucharBus(sock):
         msgTransaccion= data[10:5+tamañoTransaccion].decode()
         # print("tamaño de transaccion:",tamañoTransaccion)
         # print("msg:",msgTransaccion)
-        return nombreServicio, json.loads(msgTransaccion)
+        return nombreServicio, msgTransaccion
 
 
 def menuLogin():

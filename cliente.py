@@ -63,13 +63,36 @@ Opción:"""
         print("ingresar")
     elif opcionElegida =="2":
         print("registrarse")
-        menuRegistrarse()
+        menuRegistrarse1()
     else:
         print("No valido")
         menuLogin()
 
-def menuRegistrarse():
+
+
+def menuRegistrarse2():
     limpiarPantalla()
+    menu = """
+╔═══════════════════════════════════════════════════════════════════════╗
+║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║ Registro                                                              ║
+║ Elige un rol:                                                         ║
+║ 1) Cliente                                                            ║
+║ 2) Administrador                                                      ║
+╚═══════════════════════════════════════════════════════════════════════╝
+Rol:"""
+    rol = input(menu)
+    if rol in ["1","2"]:
+        return rol
+    else:
+        return menuRegistrarse2()
+
+
+def menuRegistrarse1():
+    limpiarPantalla()
+    nombreUsuario = None
+    rol = None
     menu = """
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -78,11 +101,26 @@ def menuRegistrarse():
 ║ Ingresa tu nombre de usuario                                          ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 Nombre de usuario:"""
+    
     nombreUsuario = input(menu)
-    print("user:",nombreUsuario)
-
-
-
+    rol = menuRegistrarse2()
+    menu2 = f"""
+╔═══════════════════════════════════════════════════════════════════════╗
+║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║ Registro                                                              ║
+║ Confirma tus datos:                                                   ║
+║ 1) Si                                                                 ║
+║ 2) No                                                                 ║
+╚═══════════════════════════════════════════════════════════════════════╝
+Usuario: {nombreUsuario}
+Rol: {"Cliente" if rol == "1" else "Administrador"}
+Opción:"""
+    confirmar = input(menu2)
+    if confirmar == "1":
+        pass
+    else:
+        menuRegistrarse1()
 
 
 

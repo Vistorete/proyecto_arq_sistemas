@@ -119,7 +119,7 @@ def menuRegistrarse1():
         contenido = {"usuario": nombreUsuario, "rol":rol}
         enviarTransaccion(sock, json.dumps(contenido), REGISTRO )
         serv, mensaje=escucharBus(sock)
-        msg =  json.loads(mensaje[2:])
+        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
         print("serv",serv)
         print("msg",msg)
         if serv == REGISTRO:

@@ -3,6 +3,7 @@
 # transaccion: 
 import socket
 import socket, sys, json
+from typing import Counter
 from gestor_base import conexion, crearBase
 
 SERVICIO = "regis" #Registro de usuarios
@@ -50,6 +51,9 @@ def registrarServicio(sock):
     
 def registrarUsuario(registro):
     print("registrar", registro)
+    # Validar que el usuario no exista
+    cursor = conexion.execute("SELECT nombre FROM usuario WHERE nombre = ?", registro["usuario"])
+    print(cursor)
     respuesta = {"respuesta":"Se registrado correctamente"}
     enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
@@ -74,7 +78,7 @@ if __name__ == "__main__":
     while True:
         serv, msg=escucharBus(sock)
         if serv == SERVICIO:
-            registrarUsuario(registro=msg)
+            registrarUsuario(registro=json.loads(msg))
 
     print('cerrando socket')
     sock.close()

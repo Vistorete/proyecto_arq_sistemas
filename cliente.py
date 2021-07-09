@@ -118,12 +118,13 @@ def menuRegistrarse1():
     if confirmar == "1":
         contenido = {"usuario": nombreUsuario, "rol":rol}
         enviarTransaccion(sock, json.dumps(contenido), REGISTRO )
-        serv, msg=escucharBus(sock)
+        serv, mensaje=escucharBus(sock)
+        msg =  json.loads(mensaje[2:])
         print("serv",serv)
         print("msg",msg)
-        # if serv == REGISTRO:
-        #     if msg["respuesta"]:
-        #         print(msg["respuesta"])
+        if serv == REGISTRO:
+            if msg["respuesta"]:
+                print(msg["respuesta"])
     else:
         menuRegistrarse1()
 

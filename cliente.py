@@ -15,7 +15,6 @@ def limpiarPantalla():
 def enviarTransaccion(sock,contenido, servicio):
     # Generacion de la transaccion
     # validacion de argumentos
-    contenido = json.dumps(contenido)
     if len(servicio) < 5 or len(contenido) < 1:
         print("Servicio: Los argumentos no cumplen con los requerimietos")
         return
@@ -118,11 +117,13 @@ def menuRegistrarse1():
     confirmar = input(menu2)
     if confirmar == "1":
         contenido = {"usuario": nombreUsuario, "rol":rol}
-        enviarTransaccion(sock, contenido, REGISTRO )
+        enviarTransaccion(sock, json.dumps(contenido), REGISTRO )
         serv, msg=escucharBus(sock)
-        if serv == REGISTRO:
-            if msg["respuesta"]:
-                print(msg["respuesta"])
+        print("serv",serv)
+        print("msg",msg)
+        # if serv == REGISTRO:
+        #     if msg["respuesta"]:
+        #         print(msg["respuesta"])
     else:
         menuRegistrarse1()
 

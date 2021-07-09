@@ -3,9 +3,9 @@
 # transaccion: 
 import socket
 import socket, sys, json
-db = DB()
+from gestor_base import conexion, crearBase
 
-SERVICIO = "regis" #autenticacion
+SERVICIO = "regis" #Registro de usuarios
 
 
 def enviarTransaccion(sock,contenido, servicio=SERVICIO):
@@ -40,6 +40,7 @@ def escucharBus(sock):
 
 def registrarServicio(sock):
     enviarTransaccion(sock, SERVICIO,"sinit")
+    crearBase()
     serv, msg = escucharBus(sock)
     if serv =="sinit" and msg[:2]=="OK":
         print("Servicio: Servicio iniciado con exito")
@@ -47,6 +48,10 @@ def registrarServicio(sock):
         print("Servicio: No se pudo iniciar el servicio")
     
     
+def registrarUsuario(registro):
+    print("registrar", registro)
+    respuesta = {"respuesta":"Se registrado correctamente"}
+    enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
 
 if __name__ == "__main__":
@@ -68,10 +73,8 @@ if __name__ == "__main__":
 
     while True:
         serv, msg=escucharBus(sock)
-        print("msg:", msg)
         if serv == SERVICIO:
-            respuesta = {"respuesta":"Se registrado correctamente"}
-            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+            registrarUsuario(registro=msg)
 
     print('cerrando socket')
     sock.close()

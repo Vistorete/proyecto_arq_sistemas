@@ -3,7 +3,8 @@
 # transaccion: 
 import socket
 import socket, sys, json
-
+from db_wrapper import DB
+db = DB()
 
 SERVICIO = "regis" #autenticacion
 
@@ -68,9 +69,8 @@ if __name__ == "__main__":
 
     while True:
         serv, msg=escucharBus(sock)
-        print("msg:")
+        print("msg:", msg)
         if serv == SERVICIO:
-            print(msg)
             respuesta = {"respuesta":"Se registrado correctamente"}
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 

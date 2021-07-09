@@ -53,8 +53,8 @@ def registrarServicio(sock):
         msgTransaccion= data[10:5+tamañoTransaccion].decode()
         # print("tamaño de transaccion:",tamañoTransaccion)
         # print("msg:",msgTransaccion)
+        print(nombreServicio, msgTransaccion)
         break
-        print
     if nombreServicio =="sinit" and msgTransaccion[:2]=="OK":
         print("Servicio: Servicio iniciado con exito")
     else:

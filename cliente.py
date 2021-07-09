@@ -40,6 +40,7 @@ def escucharBus(sock):
 
 
 def menuLogin():
+    limpiarPantalla()
     menu = """
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -55,10 +56,23 @@ Opción:"""
         print("ingresar")
     elif opcionElegida =="2":
         print("registrarse")
+        menuRegistrarse()
     else:
         print("No valido")
         menuLogin()
 
+def menuRegistrarse():
+    limpiarPantalla()
+    menu = """
+╔═══════════════════════════════════════════════════════════════════════╗
+║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║ Registro                                                              ║
+║ Ingresa tu nombre de usuario                                          ║
+╚═══════════════════════════════════════════════════════════════════════╝
+Nombre de usuario:"""
+    nombreUsuario = input(menu)
+    print("user:",nombreUsuario)
 
 
 

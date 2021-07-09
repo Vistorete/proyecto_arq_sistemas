@@ -1,9 +1,16 @@
 # test
 import socket
-import sys
+import sys, 
+from os import system, name
 
 def limpiarPantalla():
-    print(chr(27)+'[2j')
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+  
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 
 
 

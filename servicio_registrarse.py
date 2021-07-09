@@ -39,7 +39,7 @@ def escucharBus(sock):
         return nombreServicio, msgTransaccion
 
 def registrarServicio(sock):
-    enviarTransaccion(sock, "sinit",SERVICIO)
+    enviarTransaccion(sock, SERVICIO,"sinit")
     serv, msg = escucharBus(sock)
     if serv =="sinit" and msg[:2]=="OK":
         print("Servicio: Servicio iniciado con exito")
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         print("no se pudo conectar con el bus")
         quit() 
 
-    registrarServicio(sock, SERVICIO)
+    registrarServicio(sock)
 
     while True:
         serv, msg=escucharBus(sock)

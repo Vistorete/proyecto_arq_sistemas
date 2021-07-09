@@ -1,6 +1,6 @@
 # test
 import socket
-import sys, 
+import sys
 from os import system, name
 
 def limpiarPantalla():

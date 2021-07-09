@@ -7,7 +7,7 @@ import sys
 SERVICIO = "auten" #autenticacion
 
 
-def enviarTransaccion(sock, servicio, contenido):
+def enviarTransaccion(sock,contenido, servicio=SERVICIO):
     # Generacion de la transaccion
     # validacion de argumentos
     if len(servicio) < 5 or len(contenido) < 1:
@@ -39,8 +39,8 @@ def escucharBus(sock):
         # print("msg:",msgTransaccion)
         return nombreServicio, msgTransaccion
 
-def registrarServicio(sock, nombreServicio="test1"):
-    enviarTransaccion(sock, "sinit", nombreServicio)
+def registrarServicio(sock):
+    enviarTransaccion(sock, "sinit",SERVICIO)
     serv, msg = escucharBus(sock)
     if serv =="sinit" and msg[:2]=="OK":
         print("Servicio: Servicio iniciado con exito")
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         serv, msg=escucharBus(sock)
         if serv == SERVICIO:
             print(msg)
-            enviarTransaccion(sock,SERVICIO,"test de respuesta")
+            enviarTransaccion(sock,"test de respuesta", SERVICIO)
 
     print('cerrando socket')
     sock.close()

@@ -54,9 +54,18 @@ def registrarUsuario(registro):
     # Validar que el usuario no exista
     cursor = conexion.execute("SELECT nombre FROM usuario WHERE nombre = ?", (registro["usuario"],))
     resultado = cursor.fetchone()
-    print("Servicio: resultado =",resultado)
-    respuesta = {"respuesta":"Se registrado correctamente"}
-    enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+    if resultado == None: # Inicia el proceso de registro
+        if registro["rol"] in ["1","2"]:
+            rol = "cliente" if registro["rol"] == "1" else "administrador"
+            conexion.execute("INSERT INTO usuario (nombre, rol) VALUES(?,?)",(registro["usuario"],rol))
+            respuesta = {"respuesta":"Se registrado correctamente"}
+            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+        else:
+            respuesta = {"respuesta":"No se ha podido registrar al usuario"}
+            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+    else: # si el usuario ya esta registrado
+        respuesta = {"respuesta":"El usuario ya está registrado"}
+        enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
 
 if __name__ == "__main__":

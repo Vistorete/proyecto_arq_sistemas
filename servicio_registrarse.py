@@ -65,7 +65,7 @@ if __name__ == "__main__":
         print("no se pudo conectar con el bus")
         quit() 
 
-    registrarServicio(sock, SERVICIO)
+    registrarServicio(sock)
 
     while True:
         serv, msg=escucharBus(sock)

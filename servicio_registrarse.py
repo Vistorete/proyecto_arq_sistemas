@@ -11,7 +11,6 @@ SERVICIO = "regis" #autenticacion
 def enviarTransaccion(sock,contenido, servicio=SERVICIO):
     # Generacion de la transaccion
     # validacion de argumentos
-    contenido = json.dumps(contenido)
     if len(servicio) < 5 or len(contenido) < 1:
         print("Servicio: Los argumentos no cumplen con los requerimietos")
         return
@@ -37,25 +36,12 @@ def escucharBus(sock):
         msgTransaccion= data[10:5+tamañoTransaccion].decode()
         # print("tamaño de transaccion:",tamañoTransaccion)
         # print("msg:",msgTransaccion)
-        return nombreServicio, json.loads(msgTransaccion)
+        return nombreServicio, msgTransaccion
 
 def registrarServicio(sock):
     enviarTransaccion(sock, "sinit",SERVICIO)
-    cantidadRecibida = 0
-    
-    while True:
-        data = sock.recv(4096)
-        cantidadRecibida += len(data)
-        # print("data ricibida:",cantidadRecibida)
-        # print('received {!r}'.format(data))
-        tamañoTransaccion = int(data[:5].decode())
-        nombreServicio = data[5:10].decode()
-        msgTransaccion= data[10:5+tamañoTransaccion].decode()
-        # print("tamaño de transaccion:",tamañoTransaccion)
-        # print("msg:",msgTransaccion)
-        print(nombreServicio, msgTransaccion)
-        break
-    if nombreServicio =="sinit" and msgTransaccion[:2]=="OK":
+    serv, msg = escucharBus(sock)
+    if serv =="sinit" and msg[:2]=="OK":
         print("Servicio: Servicio iniciado con exito")
     else:
         print("Servicio: No se pudo iniciar el servicio")
@@ -78,7 +64,7 @@ if __name__ == "__main__":
         print("no se pudo conectar con el bus")
         quit() 
 
-    registrarServicio(sock)
+    registrarServicio(sock, SERVICIO)
 
     while True:
         serv, msg=escucharBus(sock)

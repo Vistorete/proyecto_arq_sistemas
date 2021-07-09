@@ -1,7 +1,7 @@
 # test
 import socket, sys, json
 from os import system, name
-REGISTRO = "regis"
+REGISTRO = "regi9"
 
 def limpiarPantalla():
     # for windows

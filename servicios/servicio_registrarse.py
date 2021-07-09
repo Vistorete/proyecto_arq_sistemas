@@ -6,7 +6,7 @@ import socket, sys, json
 from typing import Counter
 from gestor_base import conexion, crearBase
 
-SERVICIO = "regis" #Registro de usuarios
+SERVICIO = "regi9" #Registro de usuarios
 
 
 def enviarTransaccion(sock,contenido, servicio=SERVICIO):

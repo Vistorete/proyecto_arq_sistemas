@@ -54,6 +54,9 @@ def registrarUsuario(registro):
     # Validar que el usuario no exista
     cursor = conexion.execute("SELECT nombre FROM usuario WHERE nombre = ?", (registro["usuario"],))
     print(cursor)
+    print(len(cursor))
+    for i in cursor:
+        print(i)
     respuesta = {"respuesta":"Se registrado correctamente"}
     enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 

@@ -50,12 +50,12 @@ def registrarServicio(sock):
         # print('received {!r}'.format(data))
         tamañoTransaccion = int(data[:5].decode())
         nombreServicio = data[5:10].decode()
-        nombreServicio= data[10:5+tamañoTransaccion].decode()
+        msgTransaccion= data[10:5+tamañoTransaccion].decode()
         # print("tamaño de transaccion:",tamañoTransaccion)
         # print("msg:",msgTransaccion)
         break
-
-    if nombreServicio =="sinit" and nombreServicio[:2]=="OK":
+        print
+    if nombreServicio =="sinit" and msgTransaccion[:2]=="OK":
         print("Servicio: Servicio iniciado con exito")
     else:
         print("Servicio: No se pudo iniciar el servicio")

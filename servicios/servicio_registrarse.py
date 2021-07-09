@@ -3,7 +3,6 @@
 # transaccion: 
 import socket
 import socket, sys, json
-from db_wrapper import DB
 db = DB()
 
 SERVICIO = "regis" #autenticacion

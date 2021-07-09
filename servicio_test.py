@@ -2,14 +2,16 @@
 # "sinit" crea el servicio
 # transaccion: 
 import socket
-import sys
+import socket, sys, json
 
-SERVICIO = "auten" #autenticacion
+
+SERVICIO = "regis" #autenticacion
 
 
 def enviarTransaccion(sock,contenido, servicio=SERVICIO):
     # Generacion de la transaccion
     # validacion de argumentos
+    contenido = json.dumps(contenido)
     if len(servicio) < 5 or len(contenido) < 1:
         print("Servicio: Los argumentos no cumplen con los requerimietos")
         return
@@ -22,8 +24,6 @@ def enviarTransaccion(sock,contenido, servicio=SERVICIO):
     print("Servicio: transaccion-",transaccion)
     sock.sendall(transaccion.encode())
     
-
-
 def escucharBus(sock):
     cantidadRecibida = 0
     
@@ -37,7 +37,7 @@ def escucharBus(sock):
         msgTransaccion= data[10:5+tamañoTransaccion].decode()
         # print("tamaño de transaccion:",tamañoTransaccion)
         # print("msg:",msgTransaccion)
-        return nombreServicio, msgTransaccion
+        return nombreServicio, json.loads(msgTransaccion)
 
 def registrarServicio(sock):
     enviarTransaccion(sock, "sinit",SERVICIO)
@@ -65,14 +65,13 @@ if __name__ == "__main__":
         print("no se pudo conectar con el bus")
         quit() 
 
-    
-
     registrarServicio(sock, SERVICIO)
+
     while True:
         serv, msg=escucharBus(sock)
         if serv == SERVICIO:
             print(msg)
-            enviarTransaccion(sock,"test de respuesta", SERVICIO)
+            enviarTransaccion(sock,{"respuesta":"recibido"}, SERVICIO)
 
     print('cerrando socket')
     sock.close()

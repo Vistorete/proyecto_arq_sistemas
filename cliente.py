@@ -27,7 +27,7 @@ def enviarTransaccion(sock,contenido, servicio):
         largoTransaccion = "0" + largoTransaccion
 
     transaccion = largoTransaccion + servicio + contenido
-    print("Servicio: transaccion-",transaccion)
+    # print("Servicio: transaccion-",transaccion)
     sock.sendall(transaccion.encode())
 
 def escucharBus(sock):
@@ -43,7 +43,7 @@ def escucharBus(sock):
         msgTransaccion= data[10:5+tamañoTransaccion].decode()
         # print("tamaño de transaccion:",tamañoTransaccion)
         # print("msg:",msgTransaccion)
-        return nombreServicio, msgTransaccion
+        return nombreServicio, json.loads(msgTransaccion)
 
 
 def menuLogin():
@@ -121,6 +121,7 @@ Opción:"""
     if confirmar == "1":
         contenido = {"usuario": nombreUsuario, "rol":rol}
         enviarTransaccion(sock, contenido, REGISTRO )
+        serv, msg=escucharBus(sock)
     else:
         menuRegistrarse1()
 

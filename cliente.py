@@ -1,8 +1,7 @@
 # test
-import socket
-import sys
+import socket, sys, json
 from os import system, name
-
+REGISTRO = "regis"
 def limpiarPantalla():
     # for windows
     if name == 'nt':
@@ -18,6 +17,7 @@ def limpiarPantalla():
 def enviarTransaccion(sock,contenido, servicio):
     # Generacion de la transaccion
     # validacion de argumentos
+    contenido = json.dumps(contenido)
     if len(servicio) < 5 or len(contenido) < 1:
         print("Servicio: Los argumentos no cumplen con los requerimietos")
         return
@@ -90,7 +90,6 @@ Rol:"""
 
 
 def menuRegistrarse1():
-    limpiarPantalla()
     nombreUsuario = None
     rol = None
     menu = """
@@ -102,6 +101,7 @@ def menuRegistrarse1():
 ╚═══════════════════════════════════════════════════════════════════════╝
 Nombre de usuario:"""
     
+    limpiarPantalla()
     nombreUsuario = input(menu)
     rol = menuRegistrarse2()
     menu2 = f"""
@@ -116,13 +116,15 @@ Nombre de usuario:"""
 Usuario: {nombreUsuario}
 Rol: {"Cliente" if rol == "1" else "Administrador"}
 Opción:"""
+    limpiarPantalla()
     confirmar = input(menu2)
     if confirmar == "1":
-        pass
+        contenido = {"usuario": nombreUsuario, "rol":rol}
+        enviarTransaccion(sock, contenido, REGISTRO )
     else:
         menuRegistrarse1()
 
-
+sock = None
 
 if __name__ == "__main__":
     # Conexion con el bus

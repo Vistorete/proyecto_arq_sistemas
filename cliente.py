@@ -79,6 +79,8 @@ if __name__ == "__main__":
     except: 
         print("no se pudo conectar con el bus")
         quit()
+    ###########
+    menuLogin()
 
     
 

@@ -1,12 +1,13 @@
 # test de servicio
 # "sinit" crea el servicio
 # transaccion: 
+from os import curdir
 import socket
 import socket, sys, json
-from typing import Counter
+
 from gestor_base import conexion, crearBase
 
-SERVICIO = "regi9" #Registro de usuarios
+SERVICIO = "logi9" #Registro de usuarios
 
 
 def enviarTransaccion(sock,contenido, servicio=SERVICIO):
@@ -47,25 +48,17 @@ def registrarServicio(sock):
         print("Servicio: Servicio iniciado con exito")
     else:
         print("Servicio: No se pudo iniciar el servicio")
-    
-    
-def registrarUsuario(registro):
+
+def loginUsuario(registro):
     print("registrar", registro)
-    # Validar que el usuario no exista
-    cursor = conexion.execute("SELECT nombre FROM usuario WHERE nombre = ?", (registro["usuario"],))
-    resultado = cursor.fetchone()
-    if resultado == None: # Inicia el proceso de registro
-        if registro["rol"] in ["1","2"]:
-            rol = "cliente" if registro["rol"] == "1" else "administrador"
-            conexion.execute("INSERT INTO usuario (nombre, rol) VALUES(?,?)",(registro["usuario"],rol))
-            conexion.commit()
-            respuesta = {"respuesta":"Se registrado correctamente"}
-            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
-        else:
-            respuesta = {"respuesta":"No se ha podido registrar al usuario"}
-            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
-    else: # si el usuario ya esta registrado
-        respuesta = {"respuesta":"El usuario ya está registrado"}
+    cursor = conexion.execute("SELECT * FROM usuario WHERE nombre = ?", (registro["nombre"],))
+    usuario = cursor.fetchone()
+    if usuario:
+        print(usuario)
+        respuesta = {"respuesta":"Si hay usuario"}
+        enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+    else:
+        respuesta = {"respuesta":"No hay usuario con ese nombre"}
         enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
 
@@ -89,12 +82,3 @@ if __name__ == "__main__":
     while True:
         serv, msg=escucharBus(sock)
         print(serv, msg)
-        if serv == SERVICIO:
-            registrarUsuario(registro=json.loads(msg))
-        else:
-            respuesta = {"respuesta":"serivicio equivocado"}
-            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
-
-    print('cerrando socket')
-    sock.close()
-    

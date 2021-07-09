@@ -58,6 +58,7 @@ def registrarUsuario(registro):
         if registro["rol"] in ["1","2"]:
             rol = "cliente" if registro["rol"] == "1" else "administrador"
             conexion.execute("INSERT INTO usuario (nombre, rol) VALUES(?,?)",(registro["usuario"],rol))
+            conexion.commit()
             respuesta = {"respuesta":"Se registrado correctamente"}
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:

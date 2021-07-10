@@ -144,9 +144,10 @@ def menuLogin():
     enviarTransaccion(sock, json.dumps(contenido), LOGIN )
     serv, mensaje=escucharBus(sock)
     msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-    if serv == LOGIN:
-        if msg["respuesta"]:
-            print(msg["respuesta"])
+    print(serv, msg)
+    # if serv == LOGIN:
+    #     if msg["respuesta"]:
+    #         print(msg["respuesta"])
     
 sock = None
 

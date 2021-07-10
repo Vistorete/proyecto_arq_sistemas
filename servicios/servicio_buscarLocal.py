@@ -1,4 +1,4 @@
-from cliente.cliente import BUSCAR
+
 from os import curdir
 import socket
 import socket, sys, json

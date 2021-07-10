@@ -2,6 +2,8 @@
 import socket, sys, json
 from os import system, name
 REGISTRO = "regi9"
+LOGIN = "logi9" #Registro de usuarios
+
 
 def limpiarPantalla():
     # for windows
@@ -43,7 +45,7 @@ def escucharBus(sock):
         return nombreServicio, msgTransaccion
 
 
-def menuLogin():
+def menuIngresar():
     limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
@@ -57,9 +59,8 @@ def menuLogin():
     Opción:"""
     opcionElegida = input(menu)
     if opcionElegida == "1":
-        print("ingresar")
+        menuLogin()
     elif opcionElegida =="2":
-        print("registrarse")
         menuRegistrarse1()
     else:
         print("No valido")
@@ -128,6 +129,25 @@ def menuRegistrarse1():
     else:
         menuRegistrarse1()
 
+def menuLogin():
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Autenticación                                                         ║
+    ║ Ingresa tu nombre de usuario                                          ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Nombre de usuario:"""
+    limpiarPantalla()
+    nombreUsuario = input(menu)
+    contenido = {"usuario": nombreUsuario}
+    enviarTransaccion(sock, json.dumps(contenido), LOGIN )
+    serv, mensaje=escucharBus(sock)
+    msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+    if serv == LOGIN:
+        if msg["respuesta"]:
+            print(msg["respuesta"])
+    
 sock = None
 
 if __name__ == "__main__":
@@ -145,7 +165,7 @@ if __name__ == "__main__":
         print("no se pudo conectar con el bus")
         quit()
     ###########
-    menuLogin()
+    menuIngresar()
 
     
 

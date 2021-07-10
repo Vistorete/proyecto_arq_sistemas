@@ -149,6 +149,7 @@ def menuLogin():
         input("No se ha encontrado el usuario")
         menuLogin()
     else:
+        print(msg["respuesta"])
         pass
     # if serv == LOGIN:
     #     if msg["respuesta"]:

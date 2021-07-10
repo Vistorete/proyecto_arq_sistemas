@@ -54,8 +54,8 @@ def loginUsuario(registro):
     cursor = conexion.execute("SELECT * FROM usuario WHERE nombre = ?", (registro["usuario"],))
     usuario = cursor.fetchone()
     if usuario:
-        print(usuario)
-        respuesta = {"respuesta":"Si hay usuario"}
+        print(usuario) # (7, 'nicolas', 'cliente')
+        respuesta = {"respuesta":{"id":usuario[0],"usuario":usuario[1],"rol":usuario[2]}}
         enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
     else:
         respuesta = {"respuesta":"noNombre"}

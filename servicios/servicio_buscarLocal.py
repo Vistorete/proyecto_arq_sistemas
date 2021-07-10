@@ -1,3 +1,4 @@
+from cliente.cliente import BUSCAR
 from os import curdir
 import socket
 import socket, sys, json
@@ -28,4 +29,11 @@ if __name__ == "__main__":
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:
             # Lo que debe hacer el servicio
-            print(msg)
+            diccionario = json.loads(msg) # {"buscarPor": "id_administrador", "buscar": 8}
+            if diccionario["buscarPor"] == "id_administrador":
+                cursor = conexion.execute("SELECT * FROM local WHERE id_administrador = ?", (diccionario["buscar"],))
+                local = cursor.fetchone()
+                respuesta = {"respuesta":local}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+            elif diccionario["buscarPor"] == "comida":
+                pass

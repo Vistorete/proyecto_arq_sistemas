@@ -38,15 +38,15 @@ def escucharBus(sock):
 
     while True:
         data = sock.recv(4096)
-        cantidadRecibida += len(data)
+        
         if cantidadRecibida == 0:
             tamañoTransaccion = int(data[:5].decode())
             nombreServicio = data[5:10].decode()
             msgTransaccion = msgTransaccion + data[10:].decode()
+            cantidadRecibida += len(data)-5
         else:
             msgTransaccion = msgTransaccion + data.decode()
-
-        cantidadRecibida = len(msgTransaccion) + 5
+            cantidadRecibida += len(data)
 
         if cantidadRecibida >= tamañoTransaccion:
             break

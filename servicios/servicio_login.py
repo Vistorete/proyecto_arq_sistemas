@@ -58,7 +58,7 @@ def loginUsuario(registro):
         respuesta = {"respuesta":"Si hay usuario"}
         enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
     else:
-        respuesta = {"respuesta":"No hay usuario con ese nombre"}
+        respuesta = {"respuesta":"noNombre"}
         enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
 

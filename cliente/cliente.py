@@ -145,6 +145,11 @@ def menuLogin():
     serv, mensaje=escucharBus(sock)
     msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
     print(serv, msg)
+    if msg["respuesta":"noNombre"]:
+        input("No se ha encontrado el usuario")
+        menuLogin()
+    else:
+        pass
     # if serv == LOGIN:
     #     if msg["respuesta"]:
     #         print(msg["respuesta"])

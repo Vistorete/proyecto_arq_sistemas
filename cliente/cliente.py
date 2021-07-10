@@ -7,6 +7,7 @@ LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
+sock = None
 
 
 
@@ -178,11 +179,13 @@ def menuAdmin():
     print("diccionario",diccionario)
     if diccionario["respuesta"] != None: #{'respuesta': None}
         infoLocal=f"""
-    Nombre: {diccionario["respuesta"]["nombre"]}
-    Comuna: {diccionario["respuesta"]["comuna"]}
-    Descripción: {diccionario["respuesta"]["descripcion"]}
-    Tipo de comida: {diccionario["respuesta"]["tipo_comida"]}
-    Máximo de reservas: {diccionario["respuesta"]["reservas_maxima"]}"""
+    Información del local:
+
+        Nombre: {diccionario["respuesta"]["nombre"]}
+        Comuna: {diccionario["respuesta"]["comuna"]}
+        Descripción: {diccionario["respuesta"]["descripcion"]}
+        Tipo de comida: {diccionario["respuesta"]["tipo_comida"]}
+        Máximo de reservas: {diccionario["respuesta"]["reservas_maxima"]}"""
     else:
         infoLocal=""
     menu = f"""
@@ -206,7 +209,25 @@ def menuAdmin():
         menuAdmin()
     pass
 
-sock = None
+def menuRegistrarLocal():
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Registrar Local                                                       ║
+    ║ Ingresa los siguientes valores separados por una ","                  ║
+    ║ 1) Nombre del local                                                   ║
+    ║ 2) Descripción del local                                              ║
+    ║ 3) Comuna                                                             ║
+    ║ 4) Tipo de comida (si son mas de 2 mas separalas con un espacio)      ║
+    ║ 5) Máxima cantidad de reservas                                        ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Datos:"""
+    datos = input(menu)
+    datos.replace(", ",",")
+    datos = datos.split(",")
+    print(datos)
+
 
 if __name__ == "__main__":
     # Conexion con el bus

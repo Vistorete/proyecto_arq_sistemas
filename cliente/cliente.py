@@ -201,7 +201,7 @@ def menuAdmin():
     Opción:"""
     opcionElegida = input(menu)
     if opcionElegida == "1":
-        menuBuscarLocal()
+        menuRegistrarLocal()
         pass
     elif opcionElegida =="2":
         pass

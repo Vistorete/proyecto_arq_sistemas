@@ -224,7 +224,7 @@ def menuRegistrarLocal():
     ╚═══════════════════════════════════════════════════════════════════════╝
     Datos:"""
     datos = input(menu)
-    datos.replace(", ",",")
+    datos = datos.replace(", ",",")
     datos = datos.split(",")
     print(datos)
 

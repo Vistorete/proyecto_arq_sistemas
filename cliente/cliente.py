@@ -125,6 +125,7 @@ def menuLogin():
                 pass
             elif sesion["rol"] == "administrador":
                 # Menu admin
+                menuAdmin()
                 pass
 
 def menuCliente():

@@ -3,7 +3,7 @@ import socket, sys, json
 from os import system, name
 REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
-
+sesion = {"id": None,"usuario":None,"rol":None}
 
 def limpiarPantalla():
     # for windows
@@ -142,15 +142,18 @@ def menuLogin():
     nombreUsuario = input(menu)
     contenido = {"usuario": nombreUsuario}
     enviarTransaccion(sock, json.dumps(contenido), LOGIN )
-    serv, mensaje=escucharBus(sock)
+    serv, mensaje=escucharBus(sock) # msg: {'respuesta': {'id': 1, 'usuario': 'weebtor', 'rol': 'cliente'}}
     msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-    print(serv, msg)
-    if msg["respuesta"] == "noNombre":
-        input("No se ha encontrado el usuario")
-        menuLogin()
-    else:
-        print(msg["respuesta"])
-        pass
+    # print(serv, msg)
+    if serv == LOGIN:
+        if msg["respuesta"] == "noNombre":
+            input("No se ha encontrado el usuario, presione Enter para continuar")
+            menuLogin() 
+        else:
+            print(msg["respuesta"])
+            sesion=msg["respuesta"]
+            print(sesion)
+            pass
     # if serv == LOGIN:
     #     if msg["respuesta"]:
     #         print(msg["respuesta"])

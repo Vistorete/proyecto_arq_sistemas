@@ -120,14 +120,11 @@ def menuLogin():
             print(sesion)
             if sesion["rol"] == "cliente":
                 # Menu cliente
+                menuCliente()
                 pass
             elif sesion["rol"] == "administrador":
                 # Menu admin
                 pass
-            pass
-    # if serv == LOGIN:
-    #     if msg["respuesta"]:
-    #         print(msg["respuesta"])
 
 def menuCliente():
     menu = """
@@ -164,7 +161,8 @@ def menuBuscarLocal():
         contenido = {"buscarPor":"comida","buscar":comida}
         enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
         serv, mensaje=escucharBus(sock)
-        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+        print("serv, msg:",serv, mensaje)
+        # msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
 
     else:
         menuBuscarLocal

@@ -176,7 +176,16 @@ def menuAdmin():
     serv, mensaje=escucharBus(sock)
     diccionario = json.loads(mensaje[2:])
     print("diccionario",diccionario)
-    menu = """
+    if diccionario["respuesta"] != None: #{'respuesta': None}
+        infoLocal=f"""
+    Nombre: {diccionario["respuesta"]["nombre"]}
+    Comuna: {diccionario["respuesta"]["comuna"]}
+    Descripción: {diccionario["respuesta"]["descripcion"]}
+    Tipo de comida: {diccionario["respuesta"]["tipo_comida"]}
+    Máximo de reservas: {diccionario["respuesta"]["reservas_maxima"]}"""
+    else:
+        infoLocal=""
+    menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
     ╠═══════════════════════════════════════════════════════════════════════╣
@@ -185,6 +194,7 @@ def menuAdmin():
     ║ 1) Registrar Local (Se sobrescribira si ya tiene datos guardados)     ║
     ║ 2) Revisar reservas del restaurante                                   ║
     ╚═══════════════════════════════════════════════════════════════════════╝
+    {infoLocal}
     Opción:"""
     opcionElegida = input(menu)
     if opcionElegida == "1":

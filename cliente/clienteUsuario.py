@@ -28,32 +28,11 @@ def menuIngresar():
     if opcionElegida == "1":
         menuLogin()
     elif opcionElegida =="2":
-        menuRegistrarse1()
+        menuRegistrarse()
     else:
         print("No valido")
         menuLogin()
-
-
-
-def menuRegistrarse2():
-    limpiarPantalla()
-    menu = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Registro                                                              ║
-    ║ Elige un rol:                                                         ║
-    ║ 1) Cliente                                                            ║
-    ║ 2) Administrador                                                      ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Rol:"""
-    rol = input(menu)
-    if rol in ["1","2"]:
-        return rol
-    else:
-        return menuRegistrarse2()
-
-def menuRegistrarse1():
+def menuRegistrarse():
     nombreUsuario = None
     rol = None
     menu = """
@@ -67,7 +46,7 @@ def menuRegistrarse1():
     
     limpiarPantalla()
     nombreUsuario = input(menu)
-    rol = menuRegistrarse2()
+    rol = "1"
     menu2 = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -78,7 +57,6 @@ def menuRegistrarse1():
     ║ 2) No                                                                 ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Usuario: {nombreUsuario}
-    Rol: {"Cliente" if rol == "1" else "Administrador"}
     Opción:"""
     limpiarPantalla()
     confirmar = input(menu2)
@@ -93,8 +71,7 @@ def menuRegistrarse1():
             if msg["respuesta"]:
                 print(msg["respuesta"])
     else:
-        menuRegistrarse1()
-
+        menuRegistrarse()
 def menuLogin():
     # limpiarPantalla()
     menu = """
@@ -124,12 +101,17 @@ def menuLogin():
             if sesion["rol"] == "cliente":
                 # Menu cliente
                 menuCliente()
-                pass
-            elif sesion["rol"] == "administrador":
-                # Menu admin
-                menuAdmin()
-                pass
-
+            else:
+                error = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Autenticación                                                         ║
+    ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Presiona Enter para continuar..."""
+                input(error)
+                menuIngresar()
 def menuCliente():
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
@@ -150,7 +132,6 @@ def menuCliente():
     else:
         menuCliente()
     pass
-
 def menuBuscarLocal():
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
@@ -171,63 +152,6 @@ def menuBuscarLocal():
     else:
         menuBuscarLocal
     
-def menuAdmin():
-    contenido = {"buscarPor":"id_administrador","buscar":sesion["id"]}
-    enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
-    serv, mensaje=escucharBus(sock)
-    diccionario = json.loads(mensaje[2:])
-    print("diccionario",diccionario)
-    if diccionario["respuesta"] != None: #{'respuesta': None}
-        infoLocal=f"""
-    Información del local:
-
-        Nombre: {diccionario["respuesta"]["nombre"]}
-        Comuna: {diccionario["respuesta"]["comuna"]}
-        Descripción: {diccionario["respuesta"]["descripcion"]}
-        Tipo de comida: {diccionario["respuesta"]["tipo_comida"]}
-        Máximo de reservas: {diccionario["respuesta"]["reservas_maxima"]}"""
-    else:
-        infoLocal=""
-    menu = f"""
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Menu administrador de restaurante                                     ║
-    ║ Elige una opción                                                      ║
-    ║ 1) Registrar Local (Se sobrescribira si ya tiene datos guardados)     ║
-    ║ 2) Revisar reservas del restaurante                                   ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    {infoLocal}
-    Opción:"""
-    opcionElegida = input(menu)
-    if opcionElegida == "1":
-        menuRegistrarLocal()
-        pass
-    elif opcionElegida =="2":
-        pass
-    else:
-        menuAdmin()
-    pass
-
-def menuRegistrarLocal():
-    menu = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Registrar Local                                                       ║
-    ║ Ingresa los siguientes valores separados por una ","                  ║
-    ║ 1) Nombre del local                                                   ║
-    ║ 2) Descripción del local                                              ║
-    ║ 3) Comuna                                                             ║
-    ║ 4) Tipo de comida (si son mas de 2 mas separalas con un espacio)      ║
-    ║ 5) Máxima cantidad de reservas                                        ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Datos:"""
-    datos = input(menu)
-    datos = datos.replace(", ",",")
-    datos = datos.split(",")
-    print(datos)
-
 
 if __name__ == "__main__":
     # Conexion con el bus

@@ -3,6 +3,8 @@ import socket, sys, json
 from os import system, name
 REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
+BUSCAR = "busc9"
+
 sesion = {"id": None,"usuario":None,"rol":None}
 
 def limpiarPantalla():
@@ -31,18 +33,32 @@ def enviarTransaccion(sock,contenido, servicio):
 
 def escucharBus(sock):
     cantidadRecibida = 0
-    
+    tamañoTransaccion = None # Cantidad esperada
+    msgTransaccion = ""
+
     while True:
-        data = sock.recv(4096)
+        data = sock.recv()
         cantidadRecibida += len(data)
-        # print("data ricibida:",cantidadRecibida)
-        # print('received {!r}'.format(data))
-        tamañoTransaccion = int(data[:5].decode())
-        nombreServicio = data[5:10].decode()
-        msgTransaccion= data[10:5+tamañoTransaccion].decode()
-        # print("tamaño de transaccion:",tamañoTransaccion)
-        # print("msg:",msgTransaccion)
-        return nombreServicio, msgTransaccion
+        if cantidadRecibida == 0:
+            tamañoTransaccion = int(data[:5].decode())
+            nombreServicio = data[5:10].decode()
+            msgTransaccion = msgTransaccion + data[10:].decode()
+        else:
+            msgTransaccion = msgTransaccion + data.decode()
+
+        cantidadRecibida = len(msgTransaccion) + 5
+
+        if cantidadRecibida >= tamañoTransaccion:
+            break
+        # # print("data ricibida:",cantidadRecibida)
+        # # print('received {!r}'.format(data))
+        # tamañoTransaccion = int(data[:5].decode())
+        # nombreServicio = data[5:10].decode()
+        # msgTransaccion= data[10:5+tamañoTransaccion].decode()
+        # # print("tamaño de transaccion:",tamañoTransaccion)
+        # # print("msg:",msgTransaccion)
+        
+    return nombreServicio, msgTransaccion
 
 
 def menuIngresar():
@@ -85,7 +101,6 @@ def menuRegistrarse2():
         return rol
     else:
         return menuRegistrarse2()
-
 
 def menuRegistrarse1():
     nombreUsuario = None
@@ -150,14 +165,64 @@ def menuLogin():
             input("No se ha encontrado el usuario, presione Enter para continuar")
             menuLogin() 
         else:
-            print(msg["respuesta"])
+            # print(msg["respuesta"])
             sesion=msg["respuesta"]
             print(sesion)
+            if sesion["rol"] == "cliente":
+                # Menu cliente
+                pass
+            elif sesion["rol"] == "administrador":
+                # Menu admin
+                pass
             pass
     # if serv == LOGIN:
     #     if msg["respuesta"]:
     #         print(msg["respuesta"])
+
+def menuCliente():
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Menu cliente                                                          ║
+    ║ Elige una opción                                                      ║
+    ║ 1) Buscar local                                                       ║
+    ║ 2) Revisar reservas                                                   ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Opción:"""
+    opcionElegida = input(menu)
+    if opcionElegida == "1":
+        menuBuscarLocal()
+        pass
+    elif opcionElegida =="2":
+        pass
+    else:
+        menuCliente()
+    pass
+
+def menuBuscarLocal():
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Menu cliente                                                          ║
+    ║ Ingresa que tipo de comida buscas                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Comida:"""
+    comida = input(menu)
+    if len(comida)>0:
+        contenido = {"buscarPor":"comida","buscar":comida}
+        enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
+        serv, mensaje=escucharBus(sock)
+        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+
+    else:
+        menuBuscarLocal
     
+def menuAdmin():
+    
+    pass
+
 sock = None
 
 if __name__ == "__main__":

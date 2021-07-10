@@ -14,7 +14,7 @@ def enviarTransaccion(sock,contenido, servicio=SERVICIO):
     # Generacion de la transaccion
     # validacion de argumentos
     if len(servicio) < 5 or len(contenido) < 1:
-        print("Servicio: Los argumentos no cumplen con los requerimietos")
+        print("Servicio: Los argumentos no cumplen con los requerimientos")
         return
     # contruccion de la transaccion
     largoTransaccion = str(len(contenido) + 5)
@@ -51,7 +51,7 @@ def registrarServicio(sock):
 
 def loginUsuario(registro):
     print("registrar", registro)
-    cursor = conexion.execute("SELECT * FROM usuario WHERE nombre = ?", (registro["nombre"],))
+    cursor = conexion.execute("SELECT * FROM usuario WHERE nombre = ?", (registro["usuario"],))
     usuario = cursor.fetchone()
     if usuario:
         print(usuario)

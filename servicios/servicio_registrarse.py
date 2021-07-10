@@ -92,7 +92,7 @@ if __name__ == "__main__":
         if serv == SERVICIO:
             registrarUsuario(registro=json.loads(msg))
         else:
-            respuesta = {"respuesta":"serivicio equivocado"}
+            respuesta = {"respuesta":"servicio equivocado"}
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
     print('cerrando socket')

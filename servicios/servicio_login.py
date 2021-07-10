@@ -81,4 +81,8 @@ if __name__ == "__main__":
 
     while True:
         serv, msg=escucharBus(sock)
-        print(serv, msg)
+        if serv == SERVICIO:
+            loginUsuario(json.loads(msg))
+        else:
+            respuesta = {"respuesta":"servicio equivocado"}
+            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)

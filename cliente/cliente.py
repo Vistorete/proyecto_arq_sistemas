@@ -95,6 +95,7 @@ def menuRegistrarse1():
         menuRegistrarse1()
 
 def menuLogin():
+    # limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -168,7 +169,29 @@ def menuBuscarLocal():
         menuBuscarLocal
     
 def menuAdmin():
-    
+    contenido = {"buscarPor":"id_administrador","buscar":sesion["id"]}
+    enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
+    serv, mensaje=escucharBus(sock)
+    diccionario = json.loads(mensaje[2:])
+    print("diccionario",diccionario)
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Menu administrador de restaurante                                     ║
+    ║ Elige una opción                                                      ║
+    ║ 1) Registrar Local (Se sobrescribira si ya tiene datos guardados)     ║
+    ║ 2) Revisar reservas del restaurante                                   ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Opción:"""
+    opcionElegida = input(menu)
+    if opcionElegida == "1":
+        menuBuscarLocal()
+        pass
+    elif opcionElegida =="2":
+        pass
+    else:
+        menuAdmin()
     pass
 
 sock = None

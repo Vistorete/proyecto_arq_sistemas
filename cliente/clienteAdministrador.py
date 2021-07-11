@@ -143,6 +143,7 @@ def menuRegistrarse():
         menuIngresar()
 
 def menuRegistrarLocal():
+    limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -154,6 +155,8 @@ def menuRegistrarLocal():
     ║ 3) Comuna                                                             ║
     ║ 4) Tipo de comida (si son mas de 2 mas separalas con un espacio)      ║
     ║ 5) Máxima cantidad de reservas                                        ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Datos:"""
     datos = input(menu)
@@ -176,7 +179,7 @@ def menuRegistrarLocal():
             print(msg)
 
         else:
-            menuRegistrarLocal()
+            menuAdmin()
     else:
         menuIngresar()
 def menuIngresar():

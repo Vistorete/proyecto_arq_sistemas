@@ -20,6 +20,7 @@ def enviarTransaccion(sock,contenido, servicio):
     sock.sendall(transaccion.encode())
     
 def escucharBus(sock):
+    print("Servicio: Escuchando...")
     cantidadRecibida = 0
     tamañoTransaccion = None # Cantidad esperada
     msgTransaccion = ""

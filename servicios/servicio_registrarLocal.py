@@ -40,13 +40,19 @@ if __name__ == "__main__":
             cursor = conexion.execute("SELECT * FROM local WHERE id_administrador = ?", ( msg["id_administrador"],))
             local = cursor.fetchone()
             # Si no hay local lo inserta
-
-            if local != None:
+            print("Servicio: Local",local)
+            if local == None:
                 cursor = conexion.execute("INSERT INTO local(id_administrador,nombre, descripcion,comuna,tipo_comida,reservas_maxima) VALUES(?,?,?,?,?,?)",(msg["id_administrador"],msg["nombre"],msg["descripcion"], msg["comuna"].lower(), msg["tipo_comida"],int(msg["reservas_maxima"])))
                 conexion.commit()
                 respuesta = {"respuesta":"Se registrado correctamente"}
                 enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
             # Si hay local lo actualiza
+            else:
+                # Hacer update
+                cursor = conexion.execute("UPDATE local SET nombre = ?, descripcion = ?,comuna = ?,tipo_comida= ?,reservas_maxima= ? WHERE id_administrador =?",(msg["nombre"],msg["descripcion"], msg["comuna"].lower(), msg["tipo_comida"],int(msg["reservas_maxima"], msg["id_administrador"])))
+                conexion.commit()
+                respuesta = {"respuesta":"Se ha actualizado correctamente"}
+                enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
 
 

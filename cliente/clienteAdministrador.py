@@ -72,6 +72,7 @@ def menuAdmin():
         Máximo de reservas: {diccionario["respuesta"][6]}"""
     else:
         infoLocal=""
+    limpiarPantalla()
     menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -80,6 +81,7 @@ def menuAdmin():
     ║ Elige una opción                                                      ║
     ║ 1) Registrar Local (Se sobrescribira si ya tiene datos guardados)     ║
     ║ 2) Revisar reservas del restaurante                                   ║
+    ║ 3) salir                                                              ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     {infoLocal}
     Opción:"""
@@ -90,7 +92,7 @@ def menuAdmin():
     elif opcionElegida =="2":
         pass
     else:
-        menuAdmin()
+        menuIngresar()
     pass
 def menuRegistrarse():
     nombreUsuario = None
@@ -132,7 +134,7 @@ def menuRegistrarse():
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
-        if confirmar == "2":
+        elif confirmar == "2":
             menuRegistrarse()
         else:
             menuIngresar()
@@ -155,25 +157,28 @@ def menuRegistrarLocal():
     ╚═══════════════════════════════════════════════════════════════════════╝
     Datos:"""
     datos = input(menu)
-    datos = datos.replace(", ",",")
-    datos = datos.split(",")
-    if len(datos) == 5:
-        contenido = {
-            "id_administrador":sesion["id"],
-            "usuario":sesion["usuario"],
-            "nombre":datos[0],
-            "descripcion":datos[1],
-            "comuna":datos[2],
-            "tipo_comida":datos[3],
-            "reservas_maxima":datos[4],
-            }
-        enviarTransaccion(sock, json.dumps(contenido), REGISTRAR_LOCAL )
-        serv, mensaje=escucharBus(sock)
-        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-        print(msg)
+    if datos != "":
+        datos = datos.replace(", ",",")
+        datos = datos.split(",")
+        if len(datos) == 5:
+            contenido = {
+                "id_administrador":sesion["id"],
+                "usuario":sesion["usuario"],
+                "nombre":datos[0],
+                "descripcion":datos[1],
+                "comuna":datos[2],
+                "tipo_comida":datos[3],
+                "reservas_maxima":datos[4],
+                }
+            enviarTransaccion(sock, json.dumps(contenido), REGISTRAR_LOCAL )
+            serv, mensaje=escucharBus(sock)
+            msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+            print(msg)
 
+        else:
+            menuRegistrarLocal()
     else:
-        menuRegistrarLocal()
+        menuIngresar()
 def menuIngresar():
     limpiarPantalla()
     menu = """

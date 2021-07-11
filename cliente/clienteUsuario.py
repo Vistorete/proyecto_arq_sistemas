@@ -165,12 +165,31 @@ def menuBuscarLocal():
         
     enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
     serv, mensaje=escucharBus(sock)
-    print("serv, msg:",serv, mensaje)
+    # print("serv, msg:",serv, mensaje)
     respuesta = json.loads(mensaje[2:])
-    for i in respuesta["locales"]:
-        print(i)
+    listaLocalesObtenidos(respuesta["locales"])
 
-    
+def listaLocalesObtenidos(lista):
+    menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Locales encontrados                                                   ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Total: {len(lista)} Locales
+    Locales:"""
+    print(menu)
+    for local in lista:
+        info = f"""            ════════════════════════════════
+            {local[0]} - {local[2]}
+            Descripción: {local[3]}
+            Lugar: {local[4]}
+            Capacidad: {local[6]}
+            Tipos de comida: {local[5]}
+        """
+        print(info)
+    print("            ════════════════════════════════")
+
 
 if __name__ == "__main__":
     # Conexion con el bus

@@ -38,7 +38,7 @@ if __name__ == "__main__":
             if usuario:
             # Hay que validar la existencia del local
                 query_validar_local = "SELECT * FROM local WHERE id ?"
-                cursor = conexion.execute(query_validar_usuario, (int(inputCliente["id_local"]),))
+                cursor = conexion.execute(query_validar_local, (int(inputCliente["id_local"]),))
                 local = cursor.fetchone()
                 print("Servicio: local", local)
                 respuesta = {"respuesta":"si"}

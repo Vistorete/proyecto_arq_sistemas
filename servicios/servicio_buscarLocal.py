@@ -44,12 +44,29 @@ if __name__ == "__main__":
                 locales = cursor.fetchall()
                 respuesta = {"locales":locales}
                 enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                pass
 
-                pass
             elif diccionario["buscarPor"] == "tipo_comida":
+                query = "SELECT * FROM local WHERE tipo_comida LIKE ? COLLATE NOCASE"
+                print("%"+diccionario["buscar"]+"%")
+                cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
+                locales = cursor.fetchall()
+                respuesta = {"locales":locales}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                 pass
+
             elif diccionario["buscarPor"] == "comuna":
+                query = "SELECT * FROM local WHERE comuna LIKE ? COLLATE NOCASE"
+                print("%"+diccionario["buscar"]+"%")
+                cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
+                locales = cursor.fetchall()
+                respuesta = {"locales":locales}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                 pass
             elif diccionario["buscarPor"] == "todo":
-
+                query = "SELECT * FROM local"
+                cursor = conexion.execute(query,())
+                locales = cursor.fetchall()
+                respuesta = {"locales":locales}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                 pass

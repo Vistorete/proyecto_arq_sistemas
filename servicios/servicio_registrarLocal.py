@@ -26,6 +26,9 @@ if __name__ == "__main__":
 
     registrarServicio(sock, SERVICIO)
     while True:
-        serv, msg=escucharBus(sock)
-        print(serv, msg)
+        try:
+            serv, msg=escucharBus(sock)
+            print(serv, msg)
+        except:
+            pass
         

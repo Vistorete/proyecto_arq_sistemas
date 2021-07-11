@@ -5,6 +5,7 @@ from funcionesGenerales import limpiarPantalla, enviarTransaccion, escucharBus
 REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
+REGISTRAR_LOCAL = "rglc9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -145,8 +146,22 @@ def menuRegistrarLocal():
     datos = input(menu)
     datos = datos.replace(", ",",")
     datos = datos.split(",")
-    print(datos)
+    if len(datos) > 5:
+        contenido = {
+            "id_administrador":sesion["id"],
+            "nombre":datos[0],
+            "descripcion":datos[1],
+            "comuna":datos[2],
+            "tipo_comida":datos[3],
+            "reservas_maxima":datos[5],
+            }
+        enviarTransaccion(sock, json.dumps(contenido), REGISTRAR_LOCAL )
+        serv, mensaje=escucharBus(sock)
+        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+        print(msg)
 
+    else:
+        menuRegistrarLocal()
 def menuIngresar():
     limpiarPantalla()
     menu = """

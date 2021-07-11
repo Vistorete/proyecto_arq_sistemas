@@ -197,11 +197,13 @@ def menuBuscarLocal():
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-    """
+    Respuesta:"""
         respuesta = input(menu)
         if respuesta != "":
             contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"fecha":"24/12/13"}
             enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
+            serv2, mensaje2=escucharBus(sock)
+            print(serv2,mensaje2)
         pass
 
 

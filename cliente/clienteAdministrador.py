@@ -62,11 +62,11 @@ def menuAdmin():
         infoLocal=f"""
     Información del local:
 
-        Nombre: {diccionario["respuesta"]["nombre"]}
-        Comuna: {diccionario["respuesta"]["comuna"]}
-        Descripción: {diccionario["respuesta"]["descripcion"]}
-        Tipo de comida: {diccionario["respuesta"]["tipo_comida"]}
-        Máximo de reservas: {diccionario["respuesta"]["reservas_maxima"]}"""
+        Nombre: {diccionario["respuesta"][2]}
+        Comuna: {diccionario["respuesta"][4]}
+        Descripción: {diccionario["respuesta"][3]}
+        Tipo de comida: {diccionario["respuesta"][5]}
+        Máximo de reservas: {diccionario["respuesta"][6]}"""
     else:
         infoLocal=""
     menu = f"""

@@ -196,10 +196,12 @@ def menuBuscarLocal():
     ║ 1) Id del local a reservar                                            ║
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
-    ╚═══════════════════════════════════════════════════════════════════════╝"""
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    """
         respuesta = input(menu)
         if respuesta != "":
             contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"fecha":"24/12/13"}
+            enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
         pass
 
 

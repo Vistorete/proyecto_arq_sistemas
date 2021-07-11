@@ -55,8 +55,9 @@ def menuAdmin():
     contenido = {"buscarPor":"id_administrador","buscar":sesion["id"]}
     enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
     serv, mensaje=escucharBus(sock)
+    print( serv, mensaje)
     diccionario = json.loads(mensaje[2:])
-    # print("diccionario",diccionario)
+    print("diccionario",diccionario)
     if diccionario["respuesta"] != None: #{'respuesta': None}
         infoLocal=f"""
     Información del local:

@@ -167,7 +167,7 @@ def menuBuscarLocal():
     serv, mensaje=escucharBus(sock)
     print("serv, msg:",serv, mensaje)
     respuesta = json.loads(mensaje[2:])
-    for i in respuesta:
+    for i in respuesta["locales"]:
         print(i)
 
     

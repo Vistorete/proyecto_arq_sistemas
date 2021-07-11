@@ -151,6 +151,7 @@ def menuCliente():
         menuCliente()
     pass
 def menuReservas():
+    pass
 
 def menuBuscarLocal():
     menu = """

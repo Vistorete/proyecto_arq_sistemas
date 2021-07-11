@@ -53,8 +53,9 @@ def registrarServicio(sock, servicio):
 
 def GuardarError(error, servicio, fecha):
      logs = open("Logs.txt","a") 
-     logs.write("Error:", error, "\n", 
+     L = ["Error:", error, "\n", 
                 "Servicio:",servicio,"\n",
-                "Fecha:", fecha, "\n")
+                "Fecha:", fecha, "\n"]
+     logs.writelines(L)
      logs.close()
      print ("Se ha almacenado el error")

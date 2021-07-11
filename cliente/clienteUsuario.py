@@ -208,8 +208,24 @@ def menuBuscarLocal():
             enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
             serv2, mensaje2=escucharBus(sock)
             print(serv2,mensaje2)
-        pass
-
+            if mensaje2["respuesta"] == "si":
+                menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Rezerva realisada con exito                                           ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Respuesta:"""
+                respuesta = input(menu)
+                menuCliente()
+            else :
+                menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ No se pudo realizar la reserva                                        ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Respuesta:"""
+                respuesta = input(menu)
+                menuCliente()
+        else:
+            menuCliente()
 
 def listaLocalesObtenidos(lista):
     limpiarPantalla()

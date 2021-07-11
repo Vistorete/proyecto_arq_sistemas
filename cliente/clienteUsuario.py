@@ -77,6 +77,7 @@ def menuRegistrarse():
                 if msg["respuesta"]:
                     print(msg["respuesta"])
                     if msg["respuesta"] == "El usuario ya está registrado":
+                        confirmar = input(menu3)
                         menuIngresar()
         elif confirmar == "2":
             menuRegistrarse()

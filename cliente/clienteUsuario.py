@@ -132,6 +132,28 @@ def menuCliente():
     else:
         menuCliente()
     pass
+def listaLocalesObtenidos(lista):
+    menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Locales encontrados                                                   ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Total: {len(lista)} Locales
+    Locales:"""
+    print(menu)
+    for local in lista:
+        info = f"""            ════════════════════════════════
+            {local[0]} - {local[2]}
+            Descripción: {local[3]}
+            Lugar: {local[4]}
+            Capacidad: {local[6]}
+            Tipos de comida: {local[5]}
+        """
+        print(info)
+    print("            ════════════════════════════════")
+
+
 def menuBuscarLocal():
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
@@ -168,27 +190,19 @@ def menuBuscarLocal():
     # print("serv, msg:",serv, mensaje)
     respuesta = json.loads(mensaje[2:])
     listaLocalesObtenidos(respuesta["locales"])
-
-def listaLocalesObtenidos(lista):
-    menu = f"""
+    if len(respuesta["locales"])>0:
+        menuReservarLocal
+        print()
+def menuReservarLocal():
+    menu2 = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
     ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Locales encontrados                                                   ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Total: {len(lista)} Locales
-    Locales:"""
-    print(menu)
-    for local in lista:
-        info = f"""            ════════════════════════════════
-            {local[0]} - {local[2]}
-            Descripción: {local[3]}
-            Lugar: {local[4]}
-            Capacidad: {local[6]}
-            Tipos de comida: {local[5]}
-        """
-        print(info)
-    print("            ════════════════════════════════")
+    ║ Reservar local                                                        ║
+    ║ Elige el ID del restaurante                                           ║
+    ╚═══════════════════════════════════════════════════════════════════════╝"""
+    print(menu2)
+    id_local = int("")
 
 
 if __name__ == "__main__":

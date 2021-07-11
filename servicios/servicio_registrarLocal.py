@@ -35,15 +35,12 @@ if __name__ == "__main__":
             usuario = cursor.fetchone()
             print("Servicio: Usuario",usuario)
             if usuario:
-                # Revisa si ya tiene contenido
-                contenido = {"buscarPor": "id_administrador", "buscar": msg["id_administrador"]}
-                enviarTransaccion(sock, json.dumps(contenido), BUSCAR)
-                a, diccionarioLocal=escucharBus(sock)
-                diccionarioLocal = json.loads(diccionarioLocal[2:])
-                print("Servicio: diccionarioLocal",diccionarioLocal)
+                # Revisa si ya tiene un local
+                cursor = conexion.execute("SELECT * FROM local WHERE id_administrador = ?", ( msg["id_administrador"],))
+                local = cursor.fetchone()
                 # Si no hay local lo inserta
 
-                if diccionarioLocal["respuesta"] != None:
+                if local != None:
                     cursor = conexion.execute("INSERT INTO local(id_administrador,nombre, descripcion,comuna,tipo_comida,reservas_maxima) VALUES(?,?,?,?,?,?)",(msg["id_administrador"],msg["nombre"],msg["descripcion"], msg["comuna"].lower(), msg["tipo_comida"],int(msg["reservas_maxima"])))
                     conexion.commit()
                     respuesta = {"respuesta":"Se registrado correctamente"}

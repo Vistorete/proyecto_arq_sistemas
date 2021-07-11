@@ -49,7 +49,7 @@ if __name__ == "__main__":
             # Si hay local lo actualiza
             else:
                 # Hacer update
-                cursor = conexion.execute("UPDATE local SET nombre = ?, descripcion = ?,comuna = ?,tipo_comida= ?,reservas_maxima= ? WHERE id_administrador =?",(msg["nombre"],msg["descripcion"], msg["comuna"].lower(), msg["tipo_comida"],int(msg["reservas_maxima"], msg["id_administrador"])))
+                cursor = conexion.execute("UPDATE local SET nombre = ?, descripcion = ?,comuna = ?,tipo_comida= ?,reservas_maxima= ? WHERE id_administrador =?",(msg["nombre"],msg["descripcion"], msg["comuna"].lower(), msg["tipo_comida"],int(msg["reservas_maxima"]), msg["id_administrador"]))
                 conexion.commit()
                 respuesta = {"respuesta":"Se ha actualizado correctamente"}
                 enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)

@@ -59,9 +59,7 @@ def menuAdmin():
     diccionario = json.loads(mensaje[2:])
     print("diccionario",diccionario)
     if diccionario["respuesta"] != None: #{'respuesta': None}
-        infoLocal=f"""
-    Información del local:
-
+        infoLocal=f"""Información del local:
         Nombre: {diccionario["respuesta"][2]}
         Comuna: {diccionario["respuesta"][4]}
         Descripción: {diccionario["respuesta"][3]}

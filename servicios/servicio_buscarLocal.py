@@ -38,6 +38,8 @@ if __name__ == "__main__":
             elif diccionario["buscarPor"] == "nombre":
                 query = "SELECT * FROM local WHERE nombre LIKE ?"
                 cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
+                locales = cursor.fetchall()
+                print(locales)
                 pass
             elif diccionario["buscarPor"] == "tipo_comida":
                 pass

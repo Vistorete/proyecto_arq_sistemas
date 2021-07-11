@@ -5,6 +5,7 @@ from funcionesGenerales import limpiarPantalla, enviarTransaccion, escucharBus
 REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
+REALIZAR_RESERVAS = "rlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -43,7 +44,7 @@ def menuRegistrarse():
     ║ Ingresa tu nombre de usuario                                          ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Nombre de usuario:"""
-    
+
     limpiarPantalla()
     nombreUsuario = input(menu)
     rol = "1"
@@ -80,38 +81,43 @@ def menuLogin():
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ Autenticación                                                         ║
     ║ Ingresa tu nombre de usuario                                          ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Nombre de usuario:"""
     limpiarPantalla()
     nombreUsuario = input(menu)
-    contenido = {"usuario": nombreUsuario}
-    enviarTransaccion(sock, json.dumps(contenido), LOGIN )
-    serv, mensaje=escucharBus(sock) # msg: {'respuesta': {'id': 1, 'usuario': 'weebtor', 'rol': 'cliente'}}
-    msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-    # print(serv, msg)
-    if serv == LOGIN:
-        if msg["respuesta"] == "noNombre":
-            input("No se ha encontrado el usuario, presione Enter para continuar")
-            menuLogin() 
-        else:
-            # print(msg["respuesta"])
-            global sesion
-            sesion=msg["respuesta"]
-            print(sesion)
-            if sesion["rol"] == "cliente":
-                # Menu cliente
-                menuCliente()
+    if nombreUsuario != "":
+        contenido = {"usuario": nombreUsuario}
+        enviarTransaccion(sock, json.dumps(contenido), LOGIN )
+        serv, mensaje=escucharBus(sock) # msg: {'respuesta': {'id': 1, 'usuario': 'weebtor', 'rol': 'cliente'}}
+        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+        # print(serv, msg)
+        if serv == LOGIN:
+            if msg["respuesta"] == "noNombre":
+                input("No se ha encontrado el usuario, presione Enter para continuar")
+                menuLogin()
             else:
-                error = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Autenticación                                                         ║
-    ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Presiona Enter para continuar..."""
-                input(error)
-                menuIngresar()
+                # print(msg["respuesta"])
+                global sesion
+                sesion=msg["respuesta"]
+                print(sesion)
+                if sesion["rol"] == "cliente":
+                    # Menu cliente
+                    menuCliente()
+                else:
+                    error = """
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║ Autenticación                                                         ║
+        ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Presiona Enter para continuar..."""
+                    input(error)
+                    menuIngresar()
+    else:
+        menuIngresar()
 def menuCliente():
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
@@ -150,7 +156,7 @@ def menuBuscarLocal():
     for i in buscar:
         i = i.lstrip()
         i = i.rstrip()
-        
+
     if buscar[0] == "1":
         contenido = {"buscarPor":"nombre","buscar":buscar[1]}
         pass
@@ -162,7 +168,7 @@ def menuBuscarLocal():
         pass
     elif buscar[0] == "4":
         contenido = {"buscarPor":"todo"}
-        
+
     enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
     serv, mensaje=escucharBus(sock)
     # print("serv, msg:",serv, mensaje)
@@ -202,11 +208,8 @@ if __name__ == "__main__":
         print('Cliente: Conectandose a {} puerto {}'.format(*server_address))
         sock.connect(server_address)
     # En caso de error cierra la aplicacion
-    except: 
+    except:
         print("no se pudo conectar con el bus")
         quit()
     ###########
     menuIngresar()
-
-    
-

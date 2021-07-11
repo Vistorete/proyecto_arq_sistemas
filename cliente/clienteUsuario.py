@@ -121,12 +121,12 @@ def menuLogin():
                     menuCliente()
                 else:
                     error = """
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ Autenticación                                                         ║
-        ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Autenticación                                                         ║
+    ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Presiona Enter para continuar..."""
                     input(error)
                     menuIngresar()
@@ -142,6 +142,8 @@ def menuCliente():
     ║ Elige una opción                                                      ║
     ║ 1) Buscar local                                                       ║
     ║ 2) Revisar reservas                                                   ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Opción:"""
     opcionElegida = input(menu)
@@ -151,7 +153,7 @@ def menuCliente():
     elif opcionElegida =="2":
         pass
     else:
-        menuCliente()
+        menuIngresar()
     pass
 
 def menuReservas():
@@ -169,63 +171,68 @@ def menuBuscarLocal():
     ║ 2) Tipo de comida                                                     ║
     ║ 3) Comuna                                                             ║
     ║ 4) Todos los locales                                                  ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Comida:"""
-    buscar = input(menu)
-    buscar = buscar.split(",")
-    for i in buscar:
-        i = i.lstrip()
-        i = i.rstrip()
-
-    if buscar[0] == "1":
-        contenido = {"buscarPor":"nombre","buscar":buscar[1]}
-        pass
-    elif buscar[0] == "2":
-        contenido = {"buscarPor":"tipo_comida","buscar":buscar[1]}
-        pass
-    elif buscar[0] == "3":
-        contenido = {"buscarPor":"comuna","buscar":buscar[1]}
-        pass
-    elif buscar[0] == "4":
-        contenido = {"buscarPor":"todo"}
-
-    enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
-    serv, mensaje=escucharBus(sock)
-    # print("serv, msg:",serv, mensaje)
-    respuesta = json.loads(mensaje[2:])
-    listaLocalesObtenidos(respuesta["locales"])
-    if len(respuesta["locales"])>0:
-        menu = f"""
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ 1) Id del local a reservar                                            ║
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-    Respuesta:"""
-        respuesta = input(menu)
-        if respuesta != "":
-            contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"mes":"12","dia":"4","año":"2021"}
-            enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
-            serv2, mensaje2=escucharBus(sock)
-            print(serv2,mensaje2)
-            if mensaje2["respuesta"] == "si":
-                menu = f"""
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Rezerva realisada con exito                                           ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Respuesta:"""
-                respuesta = input(menu)
+    Comida:"""
+    buscar = input(menu)
+    if buscar != "":
+        buscar = buscar.split(",")
+        for i in buscar:
+            i = i.lstrip()
+            i = i.rstrip()
+
+        if buscar[0] == "1":
+            contenido = {"buscarPor":"nombre","buscar":buscar[1]}
+            pass
+        elif buscar[0] == "2":
+            contenido = {"buscarPor":"tipo_comida","buscar":buscar[1]}
+            pass
+        elif buscar[0] == "3":
+            contenido = {"buscarPor":"comuna","buscar":buscar[1]}
+            pass
+        elif buscar[0] == "4":
+            contenido = {"buscarPor":"todo"}
+
+        enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
+        serv, mensaje=escucharBus(sock)
+        # print("serv, msg:",serv, mensaje)
+        respuesta = json.loads(mensaje[2:])
+        listaLocalesObtenidos(respuesta["locales"])
+        if len(respuesta["locales"])>0:
+            menu = f"""
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ 1) Id del local a reservar                                            ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║ vacio para salir                                                      ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Respuesta:"""
+            respuesta = input(menu)
+            if respuesta != "":
+                contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"mes":"12","dia":"4","año":"2021"}
+                enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
+                serv2, mensaje2=escucharBus(sock)
+                print(serv2,mensaje2)
+                if mensaje2["respuesta"] == "si":
+                    menu = f"""
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ Rezerva realisada con exito                                           ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Respuesta:"""
+                    respuesta = input(menu)
+                    menuCliente()
+                else :
+                    menu = f"""
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ No se pudo realizar la reserva                                        ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Respuesta:"""
+                    respuesta = input(menu)
+                    menuCliente()
+            else:
                 menuCliente()
-            else :
-                menu = f"""
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ No se pudo realizar la reserva                                        ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Respuesta:"""
-                respuesta = input(menu)
-                menuCliente()
-        else:
-            menuCliente()
+    else:
+        menuCliente()
 
 def listaLocalesObtenidos(lista):
     limpiarPantalla()

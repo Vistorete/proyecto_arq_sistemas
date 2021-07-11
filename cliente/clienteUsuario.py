@@ -191,18 +191,8 @@ def menuBuscarLocal():
     respuesta = json.loads(mensaje[2:])
     listaLocalesObtenidos(respuesta["locales"])
     if len(respuesta["locales"])>0:
-        menuReservarLocal
         print()
-def menuReservarLocal():
-    menu2 = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Reservar local                                                        ║
-    ║ Elige el ID del restaurante                                           ║
-    ╚═══════════════════════════════════════════════════════════════════════╝"""
-    print(menu2)
-    id_local = int("")
+
 
 
 if __name__ == "__main__":

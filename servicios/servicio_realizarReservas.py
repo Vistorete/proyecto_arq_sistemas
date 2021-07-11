@@ -41,8 +41,7 @@ if __name__ == "__main__":
                 cursor = conexion.execute(query_validar_usuario, (int(inputCliente["id_local"]),))
                 local = cursor.fetchone()
                 print("Servicio: local", local)
-                
-                
-                
-                
+                respuesta = {"respuesta":"si"}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+
             

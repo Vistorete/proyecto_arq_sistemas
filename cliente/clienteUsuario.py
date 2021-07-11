@@ -195,7 +195,6 @@ def menuBuscarLocal():
     respuesta = json.loads(mensaje[2:])
     listaLocalesObtenidos(respuesta["locales"])
     if len(respuesta["locales"])>0:
-    limpiarPantalla()
         menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ 1) Id del local a reservar                                            ║

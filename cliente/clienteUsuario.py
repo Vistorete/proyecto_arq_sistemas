@@ -36,6 +36,7 @@ def menuIngresar():
 def menuRegistrarse():
     nombreUsuario = None
     rol = None
+    limpiarPantalla()  
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -87,6 +88,7 @@ def menuRegistrarse():
         menuIngresar()
 def menuLogin():
     # limpiarPantalla()
+    limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -118,6 +120,7 @@ def menuLogin():
                     # Menu cliente
                     menuCliente()
                 else:
+                limpiarPantalla()
                     error = """
         ╔═══════════════════════════════════════════════════════════════════════╗
         ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -131,6 +134,7 @@ def menuLogin():
     else:
         menuIngresar()
 def menuCliente():
+    limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -155,6 +159,7 @@ def menuReservas():
     pass
 
 def menuBuscarLocal():
+    limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -191,6 +196,7 @@ def menuBuscarLocal():
     respuesta = json.loads(mensaje[2:])
     listaLocalesObtenidos(respuesta["locales"])
     if len(respuesta["locales"])>0:
+    limpiarPantalla()
         menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ 1) Id del local a reservar                                            ║
@@ -208,6 +214,7 @@ def menuBuscarLocal():
 
 
 def listaLocalesObtenidos(lista):
+    limpiarPantalla()
     menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║

@@ -19,6 +19,8 @@ def menuLogin():
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ Autenticación                                                         ║
     ║ Ingresa tu nombre de usuario                                          ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Nombre de usuario:"""
     #ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhh aqui estoy
@@ -81,7 +83,8 @@ def menuAdmin():
     ║ Elige una opción                                                      ║
     ║ 1) Registrar Local (Se sobrescribira si ya tiene datos guardados)     ║
     ║ 2) Revisar reservas del restaurante                                   ║
-    ║ 3) salir                                                              ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     {infoLocal}
     Opción:"""
@@ -103,6 +106,8 @@ def menuRegistrarse():
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ Registro de administrador                                             ║
     ║ Ingresa tu nombre de usuario                                          ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Nombre de usuario:"""
 

@@ -150,6 +150,7 @@ def menuCliente():
     else:
         menuCliente()
     pass
+
 def menuReservas():
     pass
 
@@ -190,7 +191,15 @@ def menuBuscarLocal():
     respuesta = json.loads(mensaje[2:])
     listaLocalesObtenidos(respuesta["locales"])
     if len(respuesta["locales"])>0:
-        print("1.-reservar  locales")
+        menu = f"""
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ 1) Id del local a reservar                                            ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║ vacio para salir                                                      ║
+        ╚═══════════════════════════════════════════════════════════════════════╝"""
+        respuesta = input(menu)
+        pass
+
 
 def listaLocalesObtenidos(lista):
     menu = f"""

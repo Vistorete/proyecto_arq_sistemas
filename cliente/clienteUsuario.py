@@ -137,20 +137,34 @@ def menuBuscarLocal():
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
     ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Menu cliente                                                          ║
-    ║ Ingresa que tipo de comida buscas                                     ║
+    ║ Buscar local                                                          ║
+    ║ Elige una opción y las palabras claves (separa con una ",")           ║
+    ║ 1) Nombre                                                             ║
+    ║ 2) Tipo de comida                                                     ║
+    ║ 3) Comuna                                                             ║
+    ║ 4) Todos los locales                                                  ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Comida:"""
-    comida = input(menu)
-    if len(comida)>0:
-        contenido = {"buscarPor":"comida","buscar":comida}
-        enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
-        serv, mensaje=escucharBus(sock)
-        print("serv, msg:",serv, mensaje)
-        # msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+    buscar = input(menu)
+    buscar = buscar.lstrip()
+    buscar = buscar.rstrip()
+    buscar = buscar.split(",")
+    if buscar[0] == "1":
+        contenido = {"buscarPor":"nombre","buscar":buscar[1]}
+        pass
+    elif buscar[0] == "2":
+        contenido = {"buscarPor":"tipo_comida","buscar":buscar[1]}
+        pass
+    elif buscar[0] == "3":
+        contenido = {"buscarPor":"comuna","buscar":buscar[1]}
+        pass
+    elif buscar[0] == "4":
+        contenido = {"buscarPor":"todo"}
+        
+    enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
+    serv, mensaje=escucharBus(sock)
+    print("serv, msg:",serv, mensaje)
 
-    else:
-        menuBuscarLocal
     
 
 if __name__ == "__main__":

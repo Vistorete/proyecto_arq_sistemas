@@ -35,5 +35,14 @@ if __name__ == "__main__":
                 local = cursor.fetchone()
                 respuesta = {"respuesta":local}
                 enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
-            elif diccionario["buscarPor"] == "comida":
+            elif diccionario["buscarPor"] == "nombre":
+                query = "SELECT * FROM local WHERE nombre LIKE ?"
+                cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
+                pass
+            elif diccionario["buscarPor"] == "tipo_comida":
+                pass
+            elif diccionario["buscarPor"] == "comuna":
+                pass
+            elif diccionario["buscarPor"] == "todo":
+
                 pass

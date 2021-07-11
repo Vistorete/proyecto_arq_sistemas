@@ -76,10 +76,12 @@ def menuRegistrarse():
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
+                    if msg["respuesta"] == "El usuario ya está registrado":
+                        menuIngresar()
         elif confirmar == "2":
             menuRegistrarse()
         else:
-            menuIngresar()    
+            menuIngresar()
     else:
         menuIngresar()
 def menuLogin():

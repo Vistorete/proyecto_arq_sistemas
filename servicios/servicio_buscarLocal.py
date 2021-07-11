@@ -1,6 +1,6 @@
 
 from os import curdir
-from datetime import datetime
+import datetime
 import socket
 import socket, sys, json
 from gestor_base import conexion, crearBase

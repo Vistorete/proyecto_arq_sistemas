@@ -24,34 +24,37 @@ def menuLogin():
     #ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhh aqui estoy
     limpiarPantalla()
     nombreUsuario = input(menu)
-    contenido = {"usuario": nombreUsuario}
-    enviarTransaccion(sock, json.dumps(contenido), LOGIN )
-    serv, mensaje=escucharBus(sock) # msg: {'respuesta': {'id': 1, 'usuario': 'weebtor', 'rol': 'cliente'}}
-    msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-    # print(serv, msg)
-    if serv == LOGIN:
-        if msg["respuesta"] == "noNombre":
-            input("No se ha encontrado el usuario, presione Enter para continuar")
-            menuLogin()
-        else:
-            # print(msg["respuesta"])
-            global sesion
-            sesion=msg["respuesta"]
-            print(sesion)
-            if sesion["rol"] == "administrador":
-                # Menu admin
-                menuAdmin()
+    if nombreUsuario != "":
+        contenido = {"usuario": nombreUsuario}
+        enviarTransaccion(sock, json.dumps(contenido), LOGIN )
+        serv, mensaje=escucharBus(sock) # msg: {'respuesta': {'id': 1, 'usuario': 'weebtor', 'rol': 'cliente'}}
+        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+        # print(serv, msg)
+        if serv == LOGIN:
+            if msg["respuesta"] == "noNombre":
+                input("No se ha encontrado el usuario, presione Enter para continuar")
+                menuLogin()
             else:
-                error = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Autenticación                                                         ║
-    ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Presiona Enter para continuar..."""
-                input(error)
-                menuIngresar()
+                # print(msg["respuesta"])
+                global sesion
+                sesion=msg["respuesta"]
+                print(sesion)
+                if sesion["rol"] == "administrador":
+                    # Menu admin
+                    menuAdmin()
+                else:
+                    error = """
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║ Autenticación                                                         ║
+        ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Presiona Enter para continuar..."""
+                    input(error)
+                    menuIngresar()
+    else:
+        menuIngresar() 
 def menuAdmin():
     contenido = {"buscarPor":"id_administrador","buscar":sesion["id"]}
     enviarTransaccion(sock, json.dumps(contenido), BUSCAR )

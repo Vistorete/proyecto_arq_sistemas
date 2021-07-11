@@ -50,3 +50,11 @@ def registrarServicio(sock, servicio):
         print("Servicio: Servicio iniciado con exito")
     else:
         print("Servicio: No se pudo iniciar el servicio")
+
+def GuardarError(error, servicio, fecha):
+     logs = open("Logs.txt","a") 
+     logs.write("Error:", error, "\n", 
+                "Servicio:",servicio,"\n",
+                "Fecha:", fecha, "\n")
+     logs.close()
+     print ("Se ha almacenado el error")

@@ -43,6 +43,7 @@ def menuLogin():
                     # Menu admin
                     menuAdmin()
                 else:
+                    limpiarPantalla()
                     error = """
         ╔═══════════════════════════════════════════════════════════════════════╗
         ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -54,7 +55,7 @@ def menuLogin():
                     input(error)
                     menuIngresar()
     else:
-        menuIngresar() 
+        menuIngresar()
 def menuAdmin():
     contenido = {"buscarPor":"id_administrador","buscar":sesion["id"]}
     enviarTransaccion(sock, json.dumps(contenido), BUSCAR )
@@ -105,32 +106,35 @@ def menuRegistrarse():
 
     limpiarPantalla()
     nombreUsuario = input(menu)
-    rol = "2"
-    menu2 = f"""
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ Registro                                                              ║
-    ║ Confirma tus datos:                                                   ║
-    ║ 1) Si                                                                 ║
-    ║ 2) No                                                                 ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Usuario: {nombreUsuario}
-    Opción:"""
-    limpiarPantalla()
-    confirmar = input(menu2)
-    if confirmar == "1":
-        contenido = {"usuario": nombreUsuario, "rol":rol}
-        enviarTransaccion(sock, json.dumps(contenido), REGISTRO )
-        serv, mensaje=escucharBus(sock)
-        msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-        print("serv",serv)
-        print("msg",msg)
-        if serv == REGISTRO:
-            if msg["respuesta"]:
-                print(msg["respuesta"])
+    if nombreUsuario !="" :
+        rol = "2"
+        menu2 = f"""
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║ Registro                                                              ║
+        ║ Confirma tus datos:                                                   ║
+        ║ 1) Si                                                                 ║
+        ║ 2) No                                                                 ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Usuario: {nombreUsuario}
+        Opción:"""
+        limpiarPantalla()
+        confirmar = input(menu2)
+        if confirmar == "1":
+            contenido = {"usuario": nombreUsuario, "rol":rol}
+            enviarTransaccion(sock, json.dumps(contenido), REGISTRO )
+            serv, mensaje=escucharBus(sock)
+            msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
+            print("serv",serv)
+            print("msg",msg)
+            if serv == REGISTRO:
+                if msg["respuesta"]:
+                    print(msg["respuesta"])
+        else:
+            menuRegistrarse()
     else:
-        menuRegistrarse()
+        menuIngresar()        
 
 def menuRegistrarLocal():
     menu = """

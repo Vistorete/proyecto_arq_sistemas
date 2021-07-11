@@ -21,6 +21,7 @@ def menuLogin():
     ║ Ingresa tu nombre de usuario                                          ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Nombre de usuario:"""
+    #ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhh aqui estoy
     limpiarPantalla()
     nombreUsuario = input(menu)
     contenido = {"usuario": nombreUsuario}
@@ -31,7 +32,7 @@ def menuLogin():
     if serv == LOGIN:
         if msg["respuesta"] == "noNombre":
             input("No se ha encontrado el usuario, presione Enter para continuar")
-            menuLogin() 
+            menuLogin()
         else:
             # print(msg["respuesta"])
             global sesion
@@ -98,7 +99,7 @@ def menuRegistrarse():
     ║ Ingresa tu nombre de usuario                                          ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Nombre de usuario:"""
-    
+
     limpiarPantalla()
     nombreUsuario = input(menu)
     rol = "2"
@@ -195,7 +196,7 @@ if __name__ == "__main__":
         print('Cliente: Conectandose a {} puerto {}'.format(*server_address))
         sock.connect(server_address)
     # En caso de error cierra la aplicacion
-    except: 
+    except:
         print("no se pudo conectar con el bus")
         quit()
     ###########

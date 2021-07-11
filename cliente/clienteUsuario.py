@@ -192,12 +192,14 @@ def menuBuscarLocal():
     listaLocalesObtenidos(respuesta["locales"])
     if len(respuesta["locales"])>0:
         menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ 1) Id del local a reservar                                            ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ vacio para salir                                                      ║
-        ╚═══════════════════════════════════════════════════════════════════════╝"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ 1) Id del local a reservar                                            ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝"""
         respuesta = input(menu)
+        if respuesta != "":
+            contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"fecha":"24/12/13"}
         pass
 
 

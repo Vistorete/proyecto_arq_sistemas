@@ -71,13 +71,13 @@ def menuRegistrarse():
             enviarTransaccion(sock, json.dumps(contenido), REGISTRO )
             serv, mensaje=escucharBus(sock)
             msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
-            print("serv",serv)
-            print("msg",msg)
+            #print("serv",serv)
+            #print("msg",msg)
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
                     if msg["respuesta"] == "El usuario ya está registrado":
-                        confirmar = input(menu)
+                        confirmar = input()
                         menuIngresar()
         elif confirmar == "2":
             menuRegistrarse()

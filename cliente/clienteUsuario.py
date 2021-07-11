@@ -204,7 +204,7 @@ def menuBuscarLocal():
     Respuesta:"""
         respuesta = input(menu)
         if respuesta != "":
-            contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"fecha":"24/12/13"}
+            contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"mes":12,"dia":4,"año"2021}
             enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
             serv2, mensaje2=escucharBus(sock)
             print(serv2,mensaje2)

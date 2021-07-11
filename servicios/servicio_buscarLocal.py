@@ -5,7 +5,7 @@ import socket
 import socket, sys, json
 from gestor_base import conexion, crearBase
 from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio, GuardarError
-datetime_object = datetime.date()
+datetime_object = datetime.date.today()
 SERVICIO = "busc9" # Buscar
 
 if __name__ == "__main__":

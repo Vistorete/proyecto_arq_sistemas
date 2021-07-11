@@ -30,17 +30,21 @@ if __name__ == "__main__":
         else:
             # Lo que debe hacer el servicio
             diccionario = json.loads(msg) # {"buscarPor": "id_administrador", "buscar": 8}
+            
             if diccionario["buscarPor"] == "id_administrador":
                 cursor = conexion.execute("SELECT * FROM local WHERE id_administrador = ?", (diccionario["buscar"],))
                 local = cursor.fetchone()
                 respuesta = {"respuesta":local}
                 enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+            
             elif diccionario["buscarPor"] == "nombre":
                 query = "SELECT * FROM local WHERE nombre LIKE ? COLLATE NOCASE"
                 print("%"+diccionario["buscar"]+"%")
                 cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
                 locales = cursor.fetchall()
-                print(locales)
+                respuesta = {"locales":locales}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+
                 pass
             elif diccionario["buscarPor"] == "tipo_comida":
                 pass

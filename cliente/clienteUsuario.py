@@ -146,9 +146,11 @@ def menuBuscarLocal():
     ╚═══════════════════════════════════════════════════════════════════════╝
     Comida:"""
     buscar = input(menu)
-    buscar = buscar.lstrip()
-    buscar = buscar.rstrip()
     buscar = buscar.split(",")
+    for i in buscar:
+        i = i.lstrip()
+        i = i.rstrip()
+        
     if buscar[0] == "1":
         contenido = {"buscarPor":"nombre","buscar":buscar[1]}
         pass
@@ -164,6 +166,9 @@ def menuBuscarLocal():
     enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
     serv, mensaje=escucharBus(sock)
     print("serv, msg:",serv, mensaje)
+    respuesta = json.loads(mensaje[2:])
+    for i in respuesta:
+        print(i)
 
     
 

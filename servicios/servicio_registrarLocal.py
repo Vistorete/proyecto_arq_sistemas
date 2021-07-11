@@ -28,3 +28,4 @@ if __name__ == "__main__":
     while True:
         serv, msg=escucharBus(sock)
         print(serv, msg)
+        

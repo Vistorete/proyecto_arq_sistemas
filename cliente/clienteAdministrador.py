@@ -116,6 +116,7 @@ def menuRegistrarse():
         ║ Confirma tus datos:                                                   ║
         ║ 1) Si                                                                 ║
         ║ 2) No                                                                 ║
+        ║ 3) Salir                                                                 ║
         ╚═══════════════════════════════════════════════════════════════════════╝
         Usuario: {nombreUsuario}
         Opción:"""
@@ -131,10 +132,13 @@ def menuRegistrarse():
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
-        else:
+        if confirmar == "2":
             menuRegistrarse()
+        else:
+            menuIngresar()
+
     else:
-        menuIngresar()        
+        menuIngresar()
 
 def menuRegistrarLocal():
     menu = """

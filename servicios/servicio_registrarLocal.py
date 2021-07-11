@@ -31,7 +31,7 @@ if __name__ == "__main__":
         serv, msg=escucharBus(sock) 
         print(serv, msg) #{{"id_administrador": 8, "nombre": "Los Pollos Hermanos", "descripcion": "Basado en BrBa", "comuna": "Condado de colorado", "tipo_comida": "china peruana", "reservas_maxima": "20"}}
             # Valida al usuario
-        cursor = conexion.execute("SELECT * FROM usuario WHERE id = ? AND rol = 'administrador'", (msg["id_administrador"],))
+        cursor = conexion.execute("SELECT * FROM usuario WHERE id = ? AND rol = 'administrador'", (int(msg["id_administrador"]),))
         usuario = cursor.fetchone()
         print("Servicio: Usuario",usuario)
         if usuario:

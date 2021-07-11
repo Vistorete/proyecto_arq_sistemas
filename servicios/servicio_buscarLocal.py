@@ -36,7 +36,7 @@ if __name__ == "__main__":
                 respuesta = {"respuesta":local}
                 enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
             elif diccionario["buscarPor"] == "nombre":
-                query = "SELECT * FROM local WHERE nombre LIKE ?"
+                query = "SELECT * FROM local WHERE nombre LIKE ? COLLATE NOCASE"
                 cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
                 locales = cursor.fetchall()
                 print(locales)

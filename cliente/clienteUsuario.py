@@ -36,7 +36,7 @@ def menuIngresar():
 def menuRegistrarse():
     nombreUsuario = None
     rol = None
-    limpiarPantalla()  
+    limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
@@ -120,7 +120,6 @@ def menuLogin():
                     # Menu cliente
                     menuCliente()
                 else:
-                limpiarPantalla()
                     error = """
         ╔═══════════════════════════════════════════════════════════════════════╗
         ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║

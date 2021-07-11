@@ -153,7 +153,7 @@ def menuRegistrarLocal():
             "descripcion":datos[1],
             "comuna":datos[2],
             "tipo_comida":datos[3],
-            "reservas_maxima":datos[5],
+            "reservas_maxima":datos[4],
             }
         enviarTransaccion(sock, json.dumps(contenido), REGISTRAR_LOCAL )
         serv, mensaje=escucharBus(sock)

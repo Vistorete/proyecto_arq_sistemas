@@ -8,6 +8,7 @@ from gestor_base import conexion, crearBase
 from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio
 
 SERVICIO = "rglc9" #Registro de usuarios
+BUSCAR = "busc9"
 
 if __name__ == "__main__":
     # Conexion con el bus
@@ -27,8 +28,30 @@ if __name__ == "__main__":
     registrarServicio(sock, SERVICIO)
     while True:
         try:
-            serv, msg=escucharBus(sock)
-            print(serv, msg)
-        except:
+            serv, msg=escucharBus(sock) 
+            print(serv, msg) #{{"id_administrador": 8, "nombre": "Los Pollos Hermanos", "descripcion": "Basado en BrBa", "comuna": "Condado de colorado", "tipo_comida": "china peruana", "reservas_maxima": "20"}}
+            if serv == SERVICIO: # Valida al usuario
+                cursor = conexion.execute("SELECT * FROM usuario WHERE id = ? AND rol = 'administrador'", (msg["id_administrador"],))
+                usuario = cursor.fetchone()
+                if usuario:
+                    # Revisa si ya tiene contenido
+                    contenido = {"buscarPor": "id_administrador", "buscar": msg["id_administrador"]}
+                    enviarTransaccion(sock, json.dumps(contenido), BUSCAR)
+                    _, diccionarioLocal=escucharBus(sock)
+                    diccionarioLocal = json.loads(diccionarioLocal[2:])
+                    # Si no hay local lo inserta
+                    if diccionarioLocal["respuesta"] != None:
+                        cursor = conexion.execute("INSERT INTO local(id_administrador,nombre, descripcion,comuna,tipo_comida,reservas_maxima) VALUES(?,?,?,?,?,?)",(msg["id_administrador"],msg["nombre"],msg["descripcion"],msg["comuna"],msg["tipo_comida"],int(msg["reservas_maxima"])))
+                        conexion.commit()
+                        respuesta = {"respuesta":"Se registrado correctamente"}
+                        enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+                    # Si hay local lo actualiza
+                    else:
+                        pass
+
+
+                    
+
+        except: # Maneja errores
             pass
         

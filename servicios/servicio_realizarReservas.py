@@ -55,7 +55,7 @@ if __name__ == "__main__":
             # Valida la disponibildad:
                 if local:
                     fecha = formatearFecha(inputCliente["dia"],inputCliente["mes"],inputCliente["año"])
-                    query_obtener_reservas = "SELECT * FROM reservar WHERE id_local = ? AND fecha = ?"
+                    query_obtener_reservas = "SELECT * FROM reserva WHERE id_local = ? AND fecha = ?"
                     cursor = conexion.execute(query_obtener_reservas,(inputCliente["id_local"],fecha))
                     reservas = cursor.fetchall()
                     if local[-1] > len(reservas):

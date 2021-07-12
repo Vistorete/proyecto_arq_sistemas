@@ -213,7 +213,7 @@ def menuBuscarLocal():
                 enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
                 serv2, mensaje2=escucharBus(sock)
                 print(serv2,mensaje2)
-                if mensaje2["respuesta"] != "Error":
+                if mensaje2["respuesta"] != "error":
                     menu = f"""
         ╔═══════════════════════════════════════════════════════════════════════╗
         ║ Rezerva realisada con exito                                           ║

@@ -179,6 +179,10 @@ def menuReservas():
     ╚═══════════════════════════════════════════════════════════════════════╝
     Opción:"""
     opcionElegida = input(menu2)
+    if opcionElegida != "":
+        pass
+    else:
+        menuCliente()
 
 def menuBuscarLocal():
     limpiarPantalla()

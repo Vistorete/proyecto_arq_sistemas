@@ -57,7 +57,7 @@ if __name__ == "__main__":
                 if local:
                     fecha = formatearFecha(inputCliente["dia"],inputCliente["mes"],inputCliente["año"])
                     #Verificar si la fecha es valida
-                    if datetime.datetime.strptime(fecha,'%Y%m%d') > datetime.datetime.today():
+                    if datetime.datetime.strptime(fecha,"%Y-%m-%d") > datetime.datetime.today():
 
                         query_obtener_reservas = "SELECT * FROM reserva WHERE id_local = ? AND fecha = ?"
                         cursor = conexion.execute(query_obtener_reservas,(inputCliente["id_local"],fecha))

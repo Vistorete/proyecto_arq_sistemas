@@ -28,6 +28,8 @@ if __name__ == "__main__":
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:
             diccionario = json.loads(msg) # {"buscaRol": "admin", "id_usuario": x, "nombre": xxxx, "buscar":x } buscaRol: quien busca, id_buscador:id del cliente o local
+            print(diccionario)
+            
             query_usuario=""" SELECT * FROM usuario WHERE id = ? AND nombre= ? AND rol = ?  """
             cursor=conexion.execute()
             user=cursor.fetchone()

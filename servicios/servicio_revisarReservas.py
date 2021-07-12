@@ -29,14 +29,14 @@ if __name__ == "__main__":
         else:
             diccionario = json.loads(msg) # {"buscaRol": "admin", "id_usuario": x, "nombre": xxxx, "buscar":x } buscaRol: quien busca, id_buscador:id del cliente o local
             print(diccionario)
-            
+
             query_usuario=""" SELECT * FROM usuario WHERE id = ? AND nombre= ? AND rol = ?  """
-            cursor=conexion.execute()
+            cursor=conexion.execute(query_usuario,(diccionario["id_usuario"],diccionario["nombre_usuario"],diccionario["buscarPor"]))
             user=cursor.fetchone()
         
             if diccionario['buscaPor'] == "administrador":
                 query_obtener_local="SELECT id from local WHERE id_adminstrador= ?"
-                cursor= conexion.execute(query_obtener_local,(diccionario["id_buscador"]))
+                cursor= conexion.execute(query_obtener_local,(diccionario["id_usuario"]))
                 local=cursor.fetchone()
                 query_obtener_reservas = "SELECT * FROM reserva WHERE fecha >= ? AND id_local = ? ORDER BY fecha DESC"
                 cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),local))
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
             elif diccionario['buscaPor']== "cliente":
                 query_obtener_reservas= "SELECT * FROM reserva WHERE fecha >= ? AND id_cliente= ? ORDER BY fecha DESC"#nombre local
-                cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),diccionario['id_buscador']))
+                cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),diccionario['id_usuario']))
                 reservas= cursor.fetchall()
                 for i in reservas:
                     print(i)

@@ -5,6 +5,7 @@ from funcionesGenerales import limpiarPantalla, enviarTransaccion, escucharBus
 REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
+REVISAR_RESERVAS = "rvac9"
 REALIZAR_RESERVAS = "rlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
@@ -151,13 +152,33 @@ def menuCliente():
         menuBuscarLocal()
         pass
     elif opcionElegida =="2":
-        pass
+        menuReservas()
     else:
         menuIngresar()
     pass
 
 def menuReservas():
-    pass
+    limpiarPantalla()
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Reservas actuales                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Opción:"""
+    print(menu)
+    contenido = {"id_usuario": sesion["id"]}
+    enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
+    serv, mensaje=escucharBus(sock)
+    respuesta = json.loads(mensaje[2:])
+    print(respuesta)
+
+    menu2 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ 1) Eliminar reserva                                                   ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Opción:"""
+    opcionElegida = input(menu)
 
 def menuBuscarLocal():
     limpiarPantalla()

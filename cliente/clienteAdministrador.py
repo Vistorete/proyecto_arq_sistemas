@@ -6,6 +6,7 @@ REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REGISTRAR_LOCAL = "rglc9"
+REVISAR_RESERVAS = "rvac9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -93,10 +94,48 @@ def menuAdmin():
         menuRegistrarLocal()
         pass
     elif opcionElegida =="2":
-        pass
+        menuReservas()
     else:
         menuIngresar()
     pass
+
+def menuReservas():
+    limpiarPantalla()
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Reservas actuales                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    """
+    print(menu)
+    contenido = {"buscarPor": "administrador", "id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"]}
+    enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
+    serv, mensaje=escucharBus(sock)
+    respuesta = json.loads(mensaje[2:])
+    resp = respuesta["reservas"]
+    print(respuesta)
+    for reserva in resp:
+        info = f"""            ════════════════════════════════
+            ID: {reserva[0]}
+            Nombre del local: {reserva[1]}
+            comuna: {reserva[2]}
+            fecha: {reserva[3]}
+        """
+        print(info)
+    print("            ════════════════════════════════")
+
+    menu2 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ 1) Eliminar reserva                                                   ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Opción:"""
+    opcionElegida = input(menu2)
+    if opcionElegida != "":
+        pass
+    else:
+        menuAdmin()
+
 def menuRegistrarse():
     nombreUsuario = None
     rol = None

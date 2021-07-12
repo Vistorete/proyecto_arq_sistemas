@@ -64,4 +64,7 @@ if __name__ == "__main__":
                         conexion.commit()
                         respuesta = {"respuesta":"Se ha logrado registrar su reservar para el dia "+fecha}
                         enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                    else:
+                        respuesta = {"error":"No hay cupos disponibles para ese dia"}
+                        enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                 # respuesta = {"respuesta":"si"}

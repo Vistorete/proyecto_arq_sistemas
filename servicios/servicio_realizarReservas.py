@@ -3,6 +3,7 @@ import socket
 import socket, sys, json
 from gestor_base import conexion, crearBase
 from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio
+import datetime
 
 SERVICIO = "rlrv9" # Buscar
 def formatearFecha(dia:str, mes:str, año:str):
@@ -14,7 +15,7 @@ def formatearFecha(dia:str, mes:str, año:str):
         dia = "0"+dia
     while len(mes) <2:
         mes = "0"+mes
-    # DD-MM-AAAA
+    # AAAA-MM-DD
     return año+"-"+mes+"-"+dia
 
 if __name__ == "__main__":
@@ -55,16 +56,22 @@ if __name__ == "__main__":
             # Valida la disponibildad:
                 if local:
                     fecha = formatearFecha(inputCliente["dia"],inputCliente["mes"],inputCliente["año"])
-                    query_obtener_reservas = "SELECT * FROM reserva WHERE id_local = ? AND fecha = ?"
-                    cursor = conexion.execute(query_obtener_reservas,(inputCliente["id_local"],fecha))
-                    reservas = cursor.fetchall()
-                    if local[-1] > len(reservas):
-                        insert_reserva = "INSERT INTO reserva(id_cliente, id_local, fecha) VALUES(?,?,?)"
-                        conexion.execute(insert_reserva,(inputCliente["id_usuario"],inputCliente["id_local"],fecha))
-                        conexion.commit()
-                        respuesta = {"respuesta":"Se ha logrado registrar su reservar para el dia "+fecha}
-                        enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                    #Verificar si la fecha es valida
+                    if datetime.datetime.strptime(fecha,'%Y%m%d') > datetime.datetime.today()):
+
+                        query_obtener_reservas = "SELECT * FROM reserva WHERE id_local = ? AND fecha = ?"
+                        cursor = conexion.execute(query_obtener_reservas,(inputCliente["id_local"],fecha))
+                        reservas = cursor.fetchall()
+                        if local[-1] > len(reservas):
+                            insert_reserva = "INSERT INTO reserva(id_cliente, id_local, fecha) VALUES(?,?,?)"
+                            conexion.execute(insert_reserva,(inputCliente["id_usuario"],inputCliente["id_local"],fecha))
+                            conexion.commit()
+                            respuesta = {"respuesta":"Se ha logrado registrar su reservar para el dia "+fecha}
+                            enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                        else:
+                            respuesta = {"error":"No hay cupos disponibles para ese dia"}
+                            enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                     else:
-                        respuesta = {"error":"No hay cupos disponibles para ese dia"}
-                        enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                        respuesta={"error":"Error al seleccionar la fecha"}
+                        enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
                 # respuesta = {"respuesta":"si"}

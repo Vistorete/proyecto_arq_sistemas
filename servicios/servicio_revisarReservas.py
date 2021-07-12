@@ -1,4 +1,3 @@
-
 from os import curdir
 import socket
 import socket, sys, json
@@ -28,11 +27,25 @@ if __name__ == "__main__":
             respuesta = {"respuesta":"servicio equivocado"}
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:
-            # diccionario = json.loads(msg) # {"buscarPor": "id_administrador", "buscar": 8}
-            query_obtener_reservas = "SELECT * FROM reserva WHERE fecha >= ? ORDER BY fecha DESC"
-            cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),))
-            reservas = cursor.fetchall()
-            for i in reservas:
-                print(i)
-            respuesta = {"reservas":reservas}
-            enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+            diccionario = json.loads(msg) # {"buscaRol": "admin", "id_buscador": 8} buscaRol: quien busca, id_buscador:id del cliente o local
+
+            if diccionario['buscaRol'] == "admin":
+                query_obtener_local="SELECT id from local WHERE id_adminstrador= ?"
+                cursor= conexion.execute(query_obtener_local,(diccionario["id_buscador"]))
+                local=cursor.fetchone()
+                query_obtener_reservas = "SELECT * FROM reserva WHERE fecha >= ? AND id_local = ? ORDER BY fecha DESC"
+                cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),local))
+                reservas = cursor.fetchall()
+                for i in reservas:
+                    print(i)
+                respuesta = {"reservas":reservas}
+                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+
+            elif diccionario['buscaRol']== "cliente":
+                query_obtener_reservas= "SELECT * FROM reserva WHERE fecha >= ? AND id_cliente= ? ORDER BY fecha DESC"
+                cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),diccionario['id_buscador']))
+                reservas= cursor.fetchall()
+                for i in reservas:
+                    print(i)
+                respuesta={"reservas":reservas}
+                enviarTransaccion(sock,json.dumps(respuesta),SERVICIO)

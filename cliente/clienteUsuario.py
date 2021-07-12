@@ -7,6 +7,7 @@ LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REVISAR_RESERVAS = "rvac9"
 REALIZAR_RESERVAS = "rlrv9"
+ELIMINAR_RESERVAS = "dlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -165,7 +166,7 @@ def menuReservas():
     ╚═══════════════════════════════════════════════════════════════════════╝
     """
     print(menu)
-    # contenido = {"id_usuario": sesion["id"]}
+    contenido = {"buscaRol":"cliente", "id_buscador":sesion["id"]}
     # enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
     # serv, mensaje=escucharBus(sock)
     # respuesta = json.loads(mensaje[2:])

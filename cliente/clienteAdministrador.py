@@ -1,4 +1,5 @@
 # test
+from cliente.clienteUsuario import REVISAR_RESERVAS
 import socket, sys, json
 from os import system, name
 from funcionesGenerales import limpiarPantalla, enviarTransaccion, escucharBus
@@ -6,6 +7,7 @@ REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REGISTRAR_LOCAL = "rglc9"
+ELIMINAR_RESERVAS = "dlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -93,6 +95,8 @@ def menuAdmin():
         menuRegistrarLocal()
         pass
     elif opcionElegida =="2":
+        # Revisar reservas
+        # menuReservas()
         pass
     else:
         menuIngresar()
@@ -208,6 +212,21 @@ def menuIngresar():
     else:
         print("No valido")
         menuLogin()
+
+def menuReservas():
+    limpiarPantalla()
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Reservas actuales                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    """
+    contenido = {"buscaRol":"admin", "id_buscador":sesion["id"]}
+    enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
+    serv,msg=escucharBus(sock)
+    respuesta=json.loads(msg[2:])
+    print(menu)
+    for i in respuesta:
+        print(i,'\n')
 
 
 if __name__ == "__main__":

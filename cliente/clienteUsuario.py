@@ -165,7 +165,7 @@ def menuReservas():
     ╚═══════════════════════════════════════════════════════════════════════╝
     """
     print(menu)
-    contenido = {"buscarPor": "cliente", "id_usuario":sesion["id"],"nombre_usuario":sesion["Usuario"]}
+    contenido = {"buscarPor": "cliente", "id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"]}
     enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
     serv, mensaje=escucharBus(sock)
     respuesta = json.loads(mensaje[2:])

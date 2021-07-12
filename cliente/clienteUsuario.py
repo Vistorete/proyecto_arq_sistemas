@@ -174,6 +174,8 @@ def menuReservas():
     for reserva in resp:
         info = f"""            ════════════════════════════════
             ID: {reserva[0]}
+            Nombre del local: {reserva[1]}
+            comuna: {reserva[2]}
             fecha: {reserva[3]}
         """
         print(info)

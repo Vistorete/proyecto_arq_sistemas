@@ -163,7 +163,7 @@ def menuReservas():
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Reservas actuales                                                     ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-    Opción:"""
+    """
     print(menu)
     # contenido = {"id_usuario": sesion["id"]}
     # enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
@@ -178,7 +178,7 @@ def menuReservas():
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Opción:"""
-    opcionElegida = input(menu)
+    opcionElegida = input(menu2)
 
 def menuBuscarLocal():
     limpiarPantalla()

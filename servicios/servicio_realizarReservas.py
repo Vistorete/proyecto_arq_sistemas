@@ -61,6 +61,7 @@ if __name__ == "__main__":
                     if local[-1] > len(reservas):
                         insert_reserva = "INSERT INTO reserva(id_cliente, id_local, fecha) VALUES(?,?,?)"
                         conexion.execute(insert_reserva,(inputCliente["id_usuario"],inputCliente["id_local"],fecha))
+                        conexion.commit()
                         respuesta = {"respuesta":"Se ha logrado registrar su reservar para el dia "+fecha}
                         enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                 # respuesta = {"respuesta":"si"}

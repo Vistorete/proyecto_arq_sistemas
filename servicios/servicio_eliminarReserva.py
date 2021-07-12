@@ -27,9 +27,9 @@ if __name__ == "__main__":
             respuesta = {"respuesta":"servicio equivocado"}
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:
-            diccionario = json.loads(msg) # {"rol": "admin"/"cliente", "borrarPor": "id"/"todo","id":id cliente/local, "id_reserva":id de reserva}
+            diccionario = json.loads(msg) # {"rol": "administrador"/"cliente", "borrarPor": "id"/"todo","id":id cliente/local, "id_reserva":id de reserva}
 
-            if diccionario["rol"] == "admin":
+            if diccionario["rol"] == "administrador":
                 query_obtener_local= """SELECT id FROM local WHERE id_administrador = ?"""
                 cursor=conexion.execute(query_obtener_local,(diccionario["id"],))
                 local=cursor.fetchone()

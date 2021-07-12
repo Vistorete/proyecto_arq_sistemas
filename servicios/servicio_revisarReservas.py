@@ -29,7 +29,7 @@ if __name__ == "__main__":
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:
             # diccionario = json.loads(msg) # {"buscarPor": "id_administrador", "buscar": 8}
-            query_obtener_reservas = "SELECT * FROM reserva WHERE fecha > '2011-11-01'"
+            query_obtener_reservas = "SELECT * FROM reserva WHERE fecha >= '2011-11-01' ORDER BY fecha DESC"
             cursor = conexion.execute(query_obtener_reservas,())
             reservas = cursor.fetchall()
             for i in reservas:

@@ -5,6 +5,17 @@ from gestor_base import conexion, crearBase
 from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio
 
 SERVICIO = "rlrv9" # Buscar
+def formatearFecha(dia:str, mes:str, año:str):
+    dia = dia.replace(' ','')
+    mes = mes.replace(' ','')
+    año = año.replace(' ','')
+
+    while len(dia) <2:
+        dia = "0"+dia
+    while len(mes) <2:
+        mes = "0"+mes
+    # DD-MM-AAAA
+    return año+"-"+mes+"-"+dia
 
 if __name__ == "__main__":
     try:
@@ -28,7 +39,7 @@ if __name__ == "__main__":
             respuesta = {"respuesta":"servicio equivocado"}
             enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
         else:
-            inputCliente = json.loads(msg) # {"id_usuario": 1, "id_local":2, "nombre_usuario":"xd","fecha":"24/12/13"}
+            inputCliente = json.loads(msg) # {"id_usuario": 1, "id_local":2, "nombre_usuario":"xd","mes":12,"dia":4,"año"2021}
             # Validar usuario:
             query_validar_usuario = "SELECT * FROM usuario WHERE id = ? AND nombre = ? AND rol ='cliente'"
             cursor = conexion.execute(query_validar_usuario,(inputCliente["id_usuario"],inputCliente["nombre_usuario"]))
@@ -41,7 +52,15 @@ if __name__ == "__main__":
                 cursor = conexion.execute(query_validar_local, (int(inputCliente["id_local"]),))
                 local = cursor.fetchone()
                 print("Servicio: local", local)
-                respuesta = {"respuesta":"si"}
-                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
-
-            
+            # Valida la disponibildad:
+                if local:
+                    fecha = formatearFecha(inputCliente["dia"],inputCliente["mes"],inputCliente["año"])
+                    query_obtener_reservas = "SELECT * FROM reservar WHERE id_local = ? AND fecha = ?"
+                    cursor = conexion.execute(query_obtener_reservas,(inputCliente["id_local"],fecha))
+                    reservas = cursor.fetchall()
+                    if local[-1] > len(reservas):
+                        insert_reserva = "INSERT INTO reserva(id_cliente, id_local, fecha) VALUES(?,?,?)"
+                        conexion.execute(insert_reserva,(inputCliente["id_usuario"],inputCliente["id_local"],fecha))
+                        respuesta = {"respuesta":"Se ha logrado registrar su reservar para el dia "+fecha}
+                        enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                # respuesta = {"respuesta":"si"}

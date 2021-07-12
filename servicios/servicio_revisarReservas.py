@@ -35,7 +35,7 @@ if __name__ == "__main__":
             user=cursor.fetchone()
         
             if diccionario['buscarPor'] == "administrador":
-                query_obtener_local="SELECT id from local WHERE id_adminstrador= ?"
+                query_obtener_local="SELECT id from local WHERE id_administrador= ?"
                 cursor= conexion.execute(query_obtener_local,(diccionario["id_usuario"],))
                 local=cursor.fetchone()
                 query_obtener_reservas = "SELECT reserva.id,usuario.nombre,reserva.fecha FROM reserva JOIN usuario on usuario.id=reserva.id_cliente WHERE fecha >= ? AND id_local = ? ORDER BY fecha ASC"

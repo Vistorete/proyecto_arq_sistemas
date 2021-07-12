@@ -34,7 +34,7 @@ if __name__ == "__main__":
             cursor=conexion.execute(query_usuario,(diccionario["id_usuario"],diccionario["nombre_usuario"],diccionario["buscarPor"]))
             user=cursor.fetchone()
         
-            if diccionario['buscaPor'] == "administrador":
+            if diccionario['buscarPor'] == "administrador":
                 query_obtener_local="SELECT id from local WHERE id_adminstrador= ?"
                 cursor= conexion.execute(query_obtener_local,(diccionario["id_usuario"]))
                 local=cursor.fetchone()
@@ -46,7 +46,7 @@ if __name__ == "__main__":
                 respuesta = {"reservas":reservas}
                 enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
 
-            elif diccionario['buscaPor']== "cliente":
+            elif diccionario['buscarPor']== "cliente":
                 query_obtener_reservas= "SELECT * FROM reserva WHERE fecha >= ? AND id_cliente= ? ORDER BY fecha DESC"#nombre local
                 cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),diccionario['id_usuario']))
                 reservas= cursor.fetchall()

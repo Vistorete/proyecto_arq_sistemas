@@ -202,14 +202,18 @@ def menuBuscarLocal():
         if len(respuesta["locales"])>0:
             menu = f"""
         ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ 1) Id del local a reservar                                            ║
+        ║ 1) Id del local a reservar y fecha de reserva (id,dd,mm,aaaa)         ║
         ╠═══════════════════════════════════════════════════════════════════════╣
         ║ vacio para salir                                                      ║
         ╚═══════════════════════════════════════════════════════════════════════╝
         Respuesta:"""
             respuesta = input(menu)
             if respuesta != "":
-                contenido = {"id_usuario": sesion["id"], "id_local":respuesta, "nombre_usuario":sesion["usuario"],"mes":"12","dia":"4","año":"2021"}
+                respuesta = respuesta.split(",")
+                for i in respuesta:
+                    i = i.lstrip()
+                    i = i.rstrip()
+                contenido = {"id_usuario": sesion["id"], "id_local":respuesta[0], "nombre_usuario":sesion["usuario"],"año":respuesta[3],"dia":respuesta[1],"mes":respuesta[2]}
                 enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
                 serv2, mensaje2=escucharBus(sock)
                 print(serv2,mensaje2)

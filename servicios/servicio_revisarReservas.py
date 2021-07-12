@@ -38,7 +38,7 @@ if __name__ == "__main__":
                 query_obtener_local="SELECT id from local WHERE id_adminstrador= ?"
                 cursor= conexion.execute(query_obtener_local,(diccionario["id_usuario"]))
                 local=cursor.fetchone()
-                query_obtener_reservas = "SELECT usuario.nombre,reserva.fecha FROM reserva JOIN usuario on usuario.id=reserva.id_cliente WHERE fecha >= ? AND id_local = ? ORDER BY fecha ASC"
+                query_obtener_reservas = "SELECT reserva.id,usuario.nombre,reserva.fecha FROM reserva JOIN usuario on usuario.id=reserva.id_cliente WHERE fecha >= ? AND id_local = ? ORDER BY fecha ASC"
                 cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),local))
                 reservas = cursor.fetchall()
                 for i in reservas:
@@ -47,7 +47,7 @@ if __name__ == "__main__":
                 enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
 
             elif diccionario['buscarPor']== "cliente":
-                query_obtener_reservas= "SELECT local.nombre,local.comuna, local.tipo_comida,fecha FROM reserva JOIN local ON local.id=reserva.id_local WHERE fecha >= ? AND id_cliente= ? ORDER BY fecha ASC"#nombre local
+                query_obtener_reservas= "SELECT reserva.id,local.nombre,local.comuna,fecha FROM reserva JOIN local ON local.id=reserva.id_local WHERE fecha >= ? AND id_cliente= ? ORDER BY fecha ASC"#nombre local
                 cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),diccionario['id_usuario']))
                 reservas= cursor.fetchall()
                 for i in reservas:

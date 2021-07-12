@@ -223,7 +223,7 @@ def menuBuscarLocal():
         ╔═══════════════════════════════════════════════════════════════════════╗
         ║ Rezerva realisada con exito                                           ║
         ╚═══════════════════════════════════════════════════════════════════════╝
-        Respuesta:"""
+        dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
                     respuesta = input(menu)
                     menuCliente()
                 else :

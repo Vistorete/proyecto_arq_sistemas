@@ -161,7 +161,7 @@ def menuReservas():
     limpiarPantalla()
     menu = """
     ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Reservas actuales     2                                               ║
+    ║ Reservas actuales                                                     ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     """
     print(menu)
@@ -169,7 +169,14 @@ def menuReservas():
     enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
     serv, mensaje=escucharBus(sock)
     respuesta = json.loads(mensaje[2:])
-    print(respuesta)
+    # print(respuesta)
+    for reserva in respuesta:
+        info = f"""            ════════════════════════════════
+            ID: {reserva[0]}
+            fecha: {reserva[3]}
+        """
+        print(info)
+    print("            ════════════════════════════════")
 
     menu2 = """
     ╔═══════════════════════════════════════════════════════════════════════╗

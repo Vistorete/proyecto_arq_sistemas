@@ -218,7 +218,7 @@ def menuBuscarLocal():
                 serv2, mensaje2=escucharBus(sock)
                 print(serv2,mensaje2)
                 mensaje2 =  json.loads(mensaje2[2:])
-                if mensaje2["error"] :
+                if mensaje2["respuesta"] != "error":
                     menu = f"""
         ╔═══════════════════════════════════════════════════════════════════════╗
         ║ Rezerva realisada con exito                                           ║

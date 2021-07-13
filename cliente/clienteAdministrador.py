@@ -114,7 +114,7 @@ def menuReservas():
     serv, mensaje=escucharBus(sock)
     respuesta = json.loads(mensaje[2:])
     print(respuesta)
-    if respuesta != "error":
+    if respuesta["reservas"] != "":
         resp = respuesta["reservas"]
         for reserva in resp:
             info = f"""            ════════════════════════════════

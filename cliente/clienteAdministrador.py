@@ -115,46 +115,47 @@ def menuReservas():
     respuesta = json.loads(mensaje[2:])
     resp = respuesta["reservas"]
     # print(respuesta)
-    for reserva in resp:
-        info = f"""            ════════════════════════════════
-            ID usuario: {reserva[0]}
-            Nombre del cliente: {reserva[1]}
-            fecha: {reserva[2]}
-"""
-        print(info)
-    print("            ════════════════════════════════")
+    if resp != " ":
+        for reserva in resp:
+            info = f"""            ════════════════════════════════
+                ID usuario: {reserva[0]}
+                Nombre del cliente: {reserva[1]}
+                fecha: {reserva[2]}
+    """
+            print(info)
+        print("            ════════════════════════════════")
 
-    menu2 = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ 1) Eliminar reserva                                                   ║
-    ╠═══════════════════════════════════════════════════════════════════════╣
-    ║ vacio para salir                                                      ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    Opción:"""
-    opcionElegida = input(menu2)
-    if opcionElegida != "":
-        contenido = {"borrarPor":"administrador","id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"],"metodo":"id","id_reserva":opcionElegida}
-        enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
-        serv, mensaje=escucharBus(sock)
-        respuesta = json.loads(mensaje[2:])
-        resp = respuesta["respuesta"]
-        # print(respuesta)
-        if resp == "reservas eliminadas":
-            menu3 = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ reserva eliminada                                                     ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-        """
-            opcionElegida = input(menu3)
-            menuReservas()
-        else:
-            menu3 = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ error al eliminar reserva                                             ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-        """
-            opcionElegida = input(menu3)
-            menuReservas()
+        menu2 = """
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ 1) Eliminar reserva                                                   ║
+        ╠═══════════════════════════════════════════════════════════════════════╣
+        ║ vacio para salir                                                      ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+        Opción:"""
+        opcionElegida = input(menu2)
+        if opcionElegida != "":
+            contenido = {"borrarPor":"administrador","id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"],"metodo":"id","id_reserva":opcionElegida}
+            enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
+            serv, mensaje=escucharBus(sock)
+            respuesta = json.loads(mensaje[2:])
+            resp = respuesta["respuesta"]
+            # print(respuesta)
+            if resp == "reservas eliminadas":
+                menu3 = """
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ reserva eliminada                                                     ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+            """
+                opcionElegida = input(menu3)
+                menuReservas()
+            else:
+                menu3 = """
+        ╔═══════════════════════════════════════════════════════════════════════╗
+        ║ error al eliminar reserva                                             ║
+        ╚═══════════════════════════════════════════════════════════════════════╝
+            """
+                opcionElegida = input(menu3)
+                menuReservas()
     else:
         menuAdmin()
 

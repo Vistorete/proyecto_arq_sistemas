@@ -297,6 +297,12 @@ def menuBuscarLocal():
             else:
                 menuCliente()
         else:
+            menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ No se pudo encontrar locales                                          ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    presione enter para continuar"""
+            respuesta = input(menu)
             menuBuscarLocal()
     else:
         menuCliente()

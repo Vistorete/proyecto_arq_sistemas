@@ -196,6 +196,7 @@ def menuReservas():
         serv, mensaje=escucharBus(sock)
         respuesta = json.loads(mensaje[2:])
         print(respuesta)
+        menuReservas()
     else:
         menuCliente()
 

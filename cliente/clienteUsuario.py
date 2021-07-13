@@ -295,7 +295,7 @@ def menuBuscarLocal():
                     respuesta = input(menu)
                     menuCliente()
             else:
-                menuCliente()
+                menuBuscarLocal()
         else:
 
     else:

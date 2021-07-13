@@ -48,12 +48,12 @@ def menuLogin():
                 else:
                     limpiarPantalla()
                     error = """
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ Autenticación                                                         ║
-        ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Autenticación                                                         ║
+    ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Presiona Enter para continuar..."""
                     input(error)
                     menuIngresar()
@@ -154,16 +154,16 @@ def menuRegistrarse():
     if nombreUsuario !="" :
         rol = "2"
         menu2 = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ Registro                                                              ║
-        ║ Confirma tus datos:                                                   ║
-        ║ 1) Si                                                                 ║
-        ║ 2) No                                                                 ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ vacio para salir                                                      ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Registro                                                              ║
+    ║ Confirma tus datos:                                                   ║
+    ║ 1) Si                                                                 ║
+    ║ 2) No                                                                 ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Usuario: {nombreUsuario}
         Opción:"""
         limpiarPantalla()
@@ -178,6 +178,7 @@ def menuRegistrarse():
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
+            menuIngresar()        
         elif confirmar == "2":
             menuRegistrarse()
         else:

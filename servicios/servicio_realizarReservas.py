@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 from os import curdir
 import socket
 import datetime
@@ -85,4 +83,3 @@ if __name__ == "__main__":
             respuesta = {"error":"No se pudo realizar la solicitud."}
             enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
             print(e)
->>>>>>> Stashed changes

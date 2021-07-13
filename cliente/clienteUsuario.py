@@ -7,7 +7,7 @@ LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REVISAR_RESERVAS = "rvac9"
 REALIZAR_RESERVAS = "rlrv9"
-ELIMINAR_RESERVAS = "dlrv9"
+ELIMINAR = "dlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -81,6 +81,8 @@ def menuRegistrarse():
                     print(msg["respuesta"])
                     if msg["respuesta"] == "El usuario ya está registrado":
                         confirmar = input()
+                        menuIngresar()
+                    else:
                         menuIngresar()
         elif confirmar == "2":
             menuRegistrarse()
@@ -166,22 +168,54 @@ def menuReservas():
     ╚═══════════════════════════════════════════════════════════════════════╝
     """
     print(menu)
-    contenido = {"buscaRol":"cliente", "id_buscador":sesion["id"]}
-    # enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
-    # serv, mensaje=escucharBus(sock)
-    # respuesta = json.loads(mensaje[2:])
+    contenido = {"buscarPor": "cliente", "id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"]}
+    enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
+    serv, mensaje=escucharBus(sock)
+    respuesta = json.loads(mensaje[2:])
+    resp = respuesta["reservas"]
     # print(respuesta)
+    for reserva in resp:
+        info = f"""            ════════════════════════════════
+            ID: {reserva[0]}
+            Nombre del local: {reserva[1]}
+            comuna: {reserva[2]}
+            fecha: {reserva[3]}
+        """
+        print(info)
+    print("            ════════════════════════════════")
 
     menu2 = """
     ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ 1) Eliminar reserva                                                   ║
+    ║ Eliminar reserva (ID de la reserva)                                   ║
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     Opción:"""
     opcionElegida = input(menu2)
     if opcionElegida != "":
-        pass
+        contenido = {"borrarPor":"cliente","id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"],"metodo":"id","id_reserva":opcionElegida}
+        enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
+        serv, mensaje=escucharBus(sock)
+        respuesta = json.loads(mensaje[2:])
+        resp = respuesta["respuesta"]
+        # print(respuesta)
+        if resp == "reservas eliminadas":
+            menu3 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ reserva eliminada                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+        """
+            opcionElegida = input(menu3)
+            menuReservas()
+        else:
+            menu3 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ error al eliminar reserva                                             ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+        """
+            opcionElegida = input(menu3)
+            menuReservas()
+
     else:
         menuCliente()
 
@@ -203,65 +237,82 @@ def menuBuscarLocal():
     Comida:"""
     buscar = input(menu)
     if buscar != "":
-        buscar = buscar.split(",")
-        for i in buscar:
-            i = i.lstrip()
-            i = i.rstrip()
+        if len(buscar) > 2 or buscar =="4":
+            buscar = buscar.split(",")
+            for i in buscar:
+                i = i.lstrip()
+                i = i.rstrip()
 
-        if buscar[0] == "1":
-            contenido = {"buscarPor":"nombre","buscar":buscar[1]}
-            pass
-        elif buscar[0] == "2":
-            contenido = {"buscarPor":"tipo_comida","buscar":buscar[1]}
-            pass
-        elif buscar[0] == "3":
-            contenido = {"buscarPor":"comuna","buscar":buscar[1]}
-            pass
-        elif buscar[0] == "4":
-            contenido = {"buscarPor":"todo"}
+            if buscar[0] == "1":
+                contenido = {"buscarPor":"nombre","buscar":buscar[1]}
+                pass
+            elif buscar[0] == "2":
+                contenido = {"buscarPor":"tipo_comida","buscar":buscar[1]}
+                pass
+            elif buscar[0] == "3":
+                contenido = {"buscarPor":"comuna","buscar":buscar[1]}
+                pass
+            elif buscar[0] == "4":
+                contenido = {"buscarPor":"todo"}
 
-        enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
-        serv, mensaje=escucharBus(sock)
-        # print("serv, msg:",serv, mensaje)
-        respuesta = json.loads(mensaje[2:])
-        listaLocalesObtenidos(respuesta["locales"])
-        if len(respuesta["locales"])>0:
-            menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ 1) Id del local a reservar y fecha de reserva (id,dd,mm,aaaa)         ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ vacio para salir                                                      ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
-        Respuesta:"""
-            respuesta = input(menu)
-            if respuesta != "":
-                respuesta = respuesta.split(",")
-                for i in respuesta:
-                    i = i.lstrip()
-                    i = i.rstrip()
-                contenido = {"id_usuario": sesion["id"], "id_local":respuesta[0], "nombre_usuario":sesion["usuario"],"año":respuesta[3],"dia":respuesta[1],"mes":respuesta[2]}
-                enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
-                serv2, mensaje2=escucharBus(sock)
-                print(serv2,mensaje2)
-                mensaje2 =  json.loads(mensaje2[2:])
-                if not "error" in mensaje2.keys() :
-                    menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Rezerva realisada con exito                                           ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
-        dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
-                    respuesta = input(menu)
-                    menuCliente()
-                else :
-                    menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ No se pudo realizar la reserva                                        ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
-        Respuesta:"""
-                    respuesta = input(menu)
+            enviarTransaccion(sock,json.dumps(contenido),BUSCAR)
+            serv, mensaje=escucharBus(sock)
+            # print("serv, msg:",serv, mensaje)
+            respuesta = json.loads(mensaje[2:])
+            listaLocalesObtenidos(respuesta["locales"])
+            if len(respuesta["locales"])>0:
+                menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ 1) Id del local a reservar y fecha de reserva (id,dd,mm,aaaa)         ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Respuesta:"""
+                respuesta = input(menu)
+                if respuesta != "":
+                    respuesta = respuesta.split(",")
+                    for i in respuesta:
+                        i = i.lstrip()
+                        i = i.rstrip()
+                    contenido = {"id_usuario": sesion["id"], "id_local":respuesta[0], "nombre_usuario":sesion["usuario"],"año":respuesta[3],"dia":respuesta[1],"mes":respuesta[2]}
+                    enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
+                    serv2, mensaje2=escucharBus(sock)
+                    # print(serv2,mensaje2)
+                    mensaje2 =  json.loads(mensaje2[2:])
+                    if not "error" in mensaje2.keys() :
+                        menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Reserva realizada con exito                                           ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
+                        respuesta = input(menu)
+                        menuCliente()
+                    else :
+                        menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ No se pudo realizar la reserva                                        ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    presione enter para continuar"""
+                        respuesta = input(menu)
+                        menuCliente()
+                else:
                     menuCliente()
             else:
-                menuCliente()
+                menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ No se pudo encontrar locales                                          ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    presione enter para continuar"""
+                respuesta = input(menu)
+                menuBuscarLocal()
+        else:
+            menu = f"""
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ dato invalido                                                         ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    presione enter para continuar"""
+            respuesta = input(menu)
+            menuBuscarLocal()
     else:
         menuCliente()
 
@@ -283,6 +334,7 @@ def listaLocalesObtenidos(lista):
             Lugar: {local[4]}
             Capacidad: {local[6]}
             Tipos de comida: {local[5]}
+            Horario:{local[7]}-{local[8]}
         """
         print(info)
     print("            ════════════════════════════════")

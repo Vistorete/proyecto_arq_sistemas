@@ -5,7 +5,7 @@ def limpiarPantalla():
     # for windows
     if name == 'nt':
         _ = system('cls')
-  
+
     # for mac and linux(here, os.name is 'posix')
     else:
         _ = system('clear')
@@ -32,7 +32,7 @@ def escucharBus(sock):
 
     while True:
         data = sock.recv(4096)
-        
+
         if cantidadRecibida == 0:
             tamañoTransaccion = int(data[:5].decode())
             nombreServicio = data[5:10].decode()
@@ -44,5 +44,5 @@ def escucharBus(sock):
 
         if cantidadRecibida >= tamañoTransaccion:
             break
-        
+
     return nombreServicio, msgTransaccion

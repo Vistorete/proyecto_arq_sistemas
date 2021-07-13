@@ -1,5 +1,4 @@
 # test
-from cliente.clienteUsuario import REVISAR_RESERVAS
 import socket, sys, json
 from os import system, name
 from funcionesGenerales import limpiarPantalla, enviarTransaccion, escucharBus
@@ -7,7 +6,7 @@ REGISTRO = "regi9"
 LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REGISTRAR_LOCAL = "rglc9"
-ELIMINAR_RESERVAS = "dlrv9"
+REVISAR_RESERVAS = "rvac9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -49,12 +48,12 @@ def menuLogin():
                 else:
                     limpiarPantalla()
                     error = """
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ Autenticación                                                         ║
-        ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Autenticación                                                         ║
+    ║ Lo sentimos, tu rol no pertenece a este cliente                       ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Presiona Enter para continuar..."""
                     input(error)
                     menuIngresar()
@@ -73,7 +72,9 @@ def menuAdmin():
         Comuna: {diccionario["respuesta"][4]}
         Descripción: {diccionario["respuesta"][3]}
         Tipo de comida: {diccionario["respuesta"][5]}
-        Máximo de reservas: {diccionario["respuesta"][6]}"""
+        Máximo de reservas: {diccionario["respuesta"][6]}
+        Horario:{diccionario["respuesta"][7]}-{diccionario["respuesta"][8]}"""
+
     else:
         infoLocal=""
     limpiarPantalla()
@@ -95,12 +96,68 @@ def menuAdmin():
         menuRegistrarLocal()
         pass
     elif opcionElegida =="2":
-        # Revisar reservas
-        # menuReservas()
-        pass
+        menuReservas()
     else:
         menuIngresar()
     pass
+
+def menuReservas():
+    limpiarPantalla()
+    menu = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Reservas actuales                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    """
+    print(menu)
+    contenido = {"buscarPor": "administrador", "id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"]}
+    enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
+    serv, mensaje=escucharBus(sock)
+    respuesta = json.loads(mensaje[2:])
+    resp = respuesta["reservas"]
+    # print(respuesta)
+    for reserva in resp:
+        info = f"""            ════════════════════════════════
+            ID usuario: {reserva[0]}
+            Nombre del cliente: {reserva[1]}
+            fecha: {reserva[2]}
+"""
+        print(info)
+    print("            ════════════════════════════════")
+
+    menu2 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ 1) Eliminar reserva                                                   ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    Opción:"""
+    opcionElegida = input(menu2)
+    if opcionElegida != "":
+        contenido = {"borrarPor":"administrador","id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"],"metodo":"id","id_reserva":opcionElegida}
+        enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
+        serv, mensaje=escucharBus(sock)
+        respuesta = json.loads(mensaje[2:])
+        resp = respuesta["respuesta"]
+        # print(respuesta)
+        if resp == "reservas eliminadas":
+            menu3 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ reserva eliminada                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+        """
+            opcionElegida = input(menu3)
+            menuReservas()
+        else:
+            menu3 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ error al eliminar reserva                                             ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+        """
+            opcionElegida = input(menu3)
+            menuReservas()
+    else:
+        menuAdmin()
+
 def menuRegistrarse():
     nombreUsuario = None
     rol = None
@@ -120,16 +177,16 @@ def menuRegistrarse():
     if nombreUsuario !="" :
         rol = "2"
         menu2 = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ Registro                                                              ║
-        ║ Confirma tus datos:                                                   ║
-        ║ 1) Si                                                                 ║
-        ║ 2) No                                                                 ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ vacio para salir                                                      ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Proceso cliente para proyecto de Arquitectura de Sistemas             ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ Registro                                                              ║
+    ║ Confirma tus datos:                                                   ║
+    ║ 1) Si                                                                 ║
+    ║ 2) No                                                                 ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Usuario: {nombreUsuario}
         Opción:"""
         limpiarPantalla()
@@ -144,6 +201,7 @@ def menuRegistrarse():
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
+            menuIngresar()
         elif confirmar == "2":
             menuRegistrarse()
         else:
@@ -165,6 +223,8 @@ def menuRegistrarLocal():
     ║ 3) Comuna                                                             ║
     ║ 4) Tipo de comida (si son mas de 2 mas separalas con un espacio)      ║
     ║ 5) Máxima cantidad de reservas                                        ║
+    ║ 6) Horario apertura                                                   ║
+    ║ 7) Horario cierre                                                     ║
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
@@ -173,7 +233,7 @@ def menuRegistrarLocal():
     if datos != "":
         datos = datos.replace(", ",",")
         datos = datos.split(",")
-        if len(datos) == 5:
+        if len(datos) == 7:
             contenido = {
                 "id_administrador":sesion["id"],
                 "usuario":sesion["usuario"],
@@ -182,11 +242,14 @@ def menuRegistrarLocal():
                 "comuna":datos[2],
                 "tipo_comida":datos[3],
                 "reservas_maxima":datos[4],
+                "h_inicio":datos[5],
+                "h_termino":datos[6]
                 }
             enviarTransaccion(sock, json.dumps(contenido), REGISTRAR_LOCAL )
             serv, mensaje=escucharBus(sock)
             msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
             print(msg)
+            menuAdmin()
 
         else:
             menuAdmin()
@@ -212,21 +275,6 @@ def menuIngresar():
     else:
         print("No valido")
         menuLogin()
-
-def menuReservas():
-    limpiarPantalla()
-    menu = """
-    ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Reservas actuales                                                     ║
-    ╚═══════════════════════════════════════════════════════════════════════╝
-    """
-    contenido = {"buscaRol":"admin", "id_buscador":sesion["id"]}
-    enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
-    serv,msg=escucharBus(sock)
-    respuesta=json.loads(msg[2:])
-    print(menu)
-    for i in respuesta:
-        print(i,'\n')
 
 
 if __name__ == "__main__":

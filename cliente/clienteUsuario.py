@@ -197,7 +197,7 @@ def menuReservas():
         respuesta = json.loads(mensaje[2:])
         resp = respuesta["respuesta"]
         print(respuesta)
-        if respuesta == "reservas eliminadas":
+        if resp == "reservas eliminadas":
             menu3 = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ reserva eliminada                                                     ║

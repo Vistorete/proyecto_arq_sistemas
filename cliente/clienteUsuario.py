@@ -237,7 +237,7 @@ def menuBuscarLocal():
     Comida:"""
     buscar = input(menu)
     if buscar != "":
-        if len(buscar) > 2 and buscar !="4":
+        if len(buscar) > 2 or buscar =="4":
             buscar = buscar.split(",")
             for i in buscar:
                 i = i.lstrip()

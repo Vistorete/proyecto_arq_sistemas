@@ -195,7 +195,6 @@ def menuReservas():
         enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
         serv, mensaje=escucharBus(sock)
         respuesta = json.loads(mensaje[2:])
-        resp = respuesta["reservas"]
         print(respuesta)
     else:
         menuCliente()

@@ -119,7 +119,7 @@ def menuLogin():
                 # print(msg["respuesta"])
                 global sesion
                 sesion=msg["respuesta"]
-                print(sesion)
+                # print(sesion)
                 if sesion["rol"] == "cliente":
                     # Menu cliente
                     menuCliente()

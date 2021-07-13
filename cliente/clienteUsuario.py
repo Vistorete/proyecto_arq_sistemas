@@ -296,6 +296,8 @@ def menuBuscarLocal():
                     menuCliente()
             else:
                 menuCliente()
+        else:
+
     else:
         menuCliente()
 

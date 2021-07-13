@@ -282,7 +282,7 @@ def menuBuscarLocal():
                     if not "error" in mensaje2.keys() :
                         menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ Rezerva realisada con exito                                           ║
+    ║ Reserva realizada con exito                                           ║
     ╚═══════════════════════════════════════════════════════════════════════╝
     dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
                         respuesta = input(menu)

@@ -191,7 +191,7 @@ def menuReservas():
     Opción:"""
     opcionElegida = input(menu2)
     if opcionElegida != "":
-        contenido = {"borrarPor":"cliente","id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"],metodo:"id",id_reserva:opcionElegida}
+        contenido = {"borrarPor":"cliente","id_usuario":sesion["id"],"nombre_usuario":sesion["usuario"],"metodo":"id","id_reserva":opcionElegida}
         enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
         serv, mensaje=escucharBus(sock)
         respuesta = json.loads(mensaje[2:])

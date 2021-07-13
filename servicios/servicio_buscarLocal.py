@@ -1,10 +1,11 @@
 
 from os import curdir
+import datetime
 import socket
 import socket, sys, json
 from gestor_base import conexion, crearBase
-from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio
-
+from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio, GuardarError
+datetime_object = datetime.datetime.now()
 SERVICIO = "busc9" # Buscar
 
 if __name__ == "__main__":
@@ -72,4 +73,5 @@ if __name__ == "__main__":
                     enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                     pass
         except Exception as e:
+            GuardarError(e, SERVICIO, datetime_object)
             print(e)

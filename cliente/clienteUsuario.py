@@ -325,6 +325,7 @@ def listaLocalesObtenidos(lista):
             Lugar: {local[4]}
             Capacidad: {local[6]}
             Tipos de comida: {local[5]}
+            Horario:{local[7]}-{local[8]}
         """
         print(info)
     print("            ════════════════════════════════")

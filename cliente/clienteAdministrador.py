@@ -72,7 +72,9 @@ def menuAdmin():
         Comuna: {diccionario["respuesta"][4]}
         Descripción: {diccionario["respuesta"][3]}
         Tipo de comida: {diccionario["respuesta"][5]}
-        Máximo de reservas: {diccionario["respuesta"][6]}"""
+        Máximo de reservas: {diccionario["respuesta"][6]}
+        Horario:{diccionario["respuesta"][7]}-{diccionario["respuesta"][8]}"""
+
     else:
         infoLocal=""
     limpiarPantalla()
@@ -221,6 +223,8 @@ def menuRegistrarLocal():
     ║ 3) Comuna                                                             ║
     ║ 4) Tipo de comida (si son mas de 2 mas separalas con un espacio)      ║
     ║ 5) Máxima cantidad de reservas                                        ║
+    ║ 6) Horario apertura                                                   ║
+    ║ 7) Horario cierre                                                     ║
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
@@ -238,6 +242,8 @@ def menuRegistrarLocal():
                 "comuna":datos[2],
                 "tipo_comida":datos[3],
                 "reservas_maxima":datos[4],
+                "h_inicio":datos[5],
+                "h_termino":datos[6]
                 }
             enviarTransaccion(sock, json.dumps(contenido), REGISTRAR_LOCAL )
             serv, mensaje=escucharBus(sock)

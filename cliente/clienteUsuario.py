@@ -170,7 +170,7 @@ def menuReservas():
     serv, mensaje=escucharBus(sock)
     respuesta = json.loads(mensaje[2:])
     resp = respuesta["reservas"]
-    print(respuesta)
+    # print(respuesta)
     for reserva in resp:
         info = f"""            ════════════════════════════════
             ID: {reserva[0]}
@@ -236,11 +236,11 @@ def menuBuscarLocal():
         listaLocalesObtenidos(respuesta["locales"])
         if len(respuesta["locales"])>0:
             menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ 1) Id del local a reservar y fecha de reserva (id,dd,mm,aaaa)         ║
-        ╠═══════════════════════════════════════════════════════════════════════╣
-        ║ vacio para salir                                                      ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ 1) Id del local a reservar y fecha de reserva (id,dd,mm,aaaa)         ║
+    ╠═══════════════════════════════════════════════════════════════════════╣
+    ║ vacio para salir                                                      ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Respuesta:"""
             respuesta = input(menu)
             if respuesta != "":
@@ -255,17 +255,17 @@ def menuBuscarLocal():
                 mensaje2 =  json.loads(mensaje2[2:])
                 if not "error" in mensaje2.keys() :
                     menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ Rezerva realisada con exito                                           ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ Rezerva realisada con exito                                           ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
                     respuesta = input(menu)
                     menuCliente()
                 else :
                     menu = f"""
-        ╔═══════════════════════════════════════════════════════════════════════╗
-        ║ No se pudo realizar la reserva                                        ║
-        ╚═══════════════════════════════════════════════════════════════════════╝
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ No se pudo realizar la reserva                                        ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
         Respuesta:"""
                     respuesta = input(menu)
                     menuCliente()

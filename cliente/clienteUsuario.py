@@ -196,7 +196,7 @@ def menuReservas():
         serv, mensaje=escucharBus(sock)
         respuesta = json.loads(mensaje[2:])
         resp = respuesta["respuesta"]
-        print(respuesta)
+        # print(respuesta)
         if resp == "reservas eliminadas":
             menu3 = """
     ╔═══════════════════════════════════════════════════════════════════════╗

@@ -62,7 +62,7 @@ if __name__ == "__main__":
                         query_obtener_reservas = "SELECT * FROM reserva WHERE id_local = ? AND fecha = ?"
                         cursor = conexion.execute(query_obtener_reservas,(inputCliente["id_local"],fecha))
                         reservas = cursor.fetchall()
-                        if local[-1] > len(reservas):
+                        if local[-3] > len(reservas):
                             insert_reserva = "INSERT INTO reserva(id_cliente, id_local, fecha) VALUES(?,?,?)"
                             conexion.execute(insert_reserva,(inputCliente["id_usuario"],inputCliente["id_local"],fecha))
                             conexion.commit()

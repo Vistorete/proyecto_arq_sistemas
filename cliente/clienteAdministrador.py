@@ -113,11 +113,9 @@ def menuReservas():
     enviarTransaccion(sock,json.dumps(contenido),REVISAR_RESERVAS)
     serv, mensaje=escucharBus(sock)
     respuesta = json.loads(mensaje[2:])
-    resp = respuesta["reservas"]
-    # print(respuesta)
-    if Respuesta["error"] != "":
-        menuReservas()
-    else:
+    if respuesrra["reservas"] != "":
+        resp = respuesta["reservas"]
+        # print(respuesta)
         for reserva in resp:
             info = f"""            ════════════════════════════════
                 ID usuario: {reserva[0]}
@@ -158,6 +156,8 @@ def menuReservas():
             """
                 opcionElegida = input(menu3)
                 menuReservas()
+    else:
+        menuAdmin()
 
 def menuRegistrarse():
     nombreUsuario = None

@@ -233,7 +233,7 @@ def menuRegistrarLocal():
     if datos != "":
         datos = datos.replace(", ",",")
         datos = datos.split(",")
-        if len(datos) == 5:
+        if len(datos) == 7:
             contenido = {
                 "id_administrador":sesion["id"],
                 "usuario":sesion["usuario"],

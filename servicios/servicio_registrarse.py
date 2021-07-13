@@ -3,9 +3,10 @@
 # transaccion: 
 import socket
 import socket, sys, json
+import datetime
 from typing import Counter
 from gestor_base import conexion, crearBase
-from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio
+from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio, GuardarError
 SERVICIO = "regi9" #Registro de usuarios
 
 
@@ -49,14 +50,18 @@ if __name__ == "__main__":
     registrarServicio(sock, SERVICIO)
 
     while True:
-        serv, msg=escucharBus(sock)
-        print(serv, msg)
-        if serv == SERVICIO:
-            registrarUsuario(registro=json.loads(msg))
-        else:
-            respuesta = {"respuesta":"servicio equivocado"}
-            enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
+        try:
+            serv, msg=escucharBus(sock)
+            print(serv, msg)
+            if serv == SERVICIO:
+                registrarUsuario(registro=json.loads(msg))
+            else:
+                respuesta = {"respuesta":"servicio equivocado"}
+                enviarTransaccion(sock,json.dumps(respuesta), SERVICIO)
 
-    print('cerrando socket')
-    sock.close()
-    
+        except Exception as e:
+            datetime_object = datetime.datetime.now()
+            GuardarError(e, SERVICIO, datetime_object)
+            respuesta = {"error":"No se pudo realizar la solicitud."}
+            enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+            print(e)

@@ -178,7 +178,7 @@ def menuRegistrarse():
             if serv == REGISTRO:
                 if msg["respuesta"]:
                     print(msg["respuesta"])
-            menuIngresar()        
+            menuIngresar()
         elif confirmar == "2":
             menuRegistrarse()
         else:
@@ -222,6 +222,7 @@ def menuRegistrarLocal():
             serv, mensaje=escucharBus(sock)
             msg =  json.loads(mensaje[2:]) # los 2 primeros caracteres son OK
             print(msg)
+            menuAdmin()
 
         else:
             menuAdmin()

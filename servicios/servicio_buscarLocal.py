@@ -5,7 +5,6 @@ import socket
 import socket, sys, json
 from gestor_base import conexion, crearBase
 from funcionesGenerales import enviarTransaccion, escucharBus, registrarServicio, GuardarError
-datetime_object = datetime.datetime.now()
 SERVICIO = "busc9" # Buscar
 
 if __name__ == "__main__":
@@ -39,7 +38,6 @@ if __name__ == "__main__":
                     respuesta = {"respuesta":local}
                     enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                 
-                elif diccionario["buscarPor"] == "nombre":
                     query = "SELECT * FROM local WHERE nombre LIKE ? COLLATE NOCASE"
                     print("%"+diccionario["buscar"]+"%")
                     cursor = conexion.execute(query,("%"+diccionario["buscar"]+"%",))
@@ -73,5 +71,8 @@ if __name__ == "__main__":
                     enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
                     pass
         except Exception as e:
+            datetime_object = datetime.datetime.now()
             GuardarError(e, SERVICIO, datetime_object)
+            respuesta = {"error":"No se pudo realizar la solicitud."}
+            enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
             print(e)

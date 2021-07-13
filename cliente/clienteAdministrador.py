@@ -112,13 +112,13 @@ def menuReservas():
     serv, mensaje=escucharBus(sock)
     respuesta = json.loads(mensaje[2:])
     resp = respuesta["reservas"]
-    print(respuesta)
+    # print(respuesta)
     for reserva in resp:
         info = f"""            ════════════════════════════════
             ID usuario: {reserva[0]}
             Nombre del cliente: {reserva[1]}
             fecha: {reserva[2]}
-        """
+"""
         print(info)
     print("            ════════════════════════════════")
 

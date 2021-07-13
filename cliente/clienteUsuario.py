@@ -7,6 +7,7 @@ LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REVISAR_RESERVAS = "rvac9"
 REALIZAR_RESERVAS = "rlrv9"
+ELIMINAR = "dlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
@@ -190,7 +191,12 @@ def menuReservas():
     Opción:"""
     opcionElegida = input(menu2)
     if opcionElegida != "":
-        pass
+        contenido = {"borrarPor":"id_usuario":sesion["id"],"nombre_usuario",metodo:"id",id_reserva:opcionElegida}
+        enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
+        serv, mensaje=escucharBus(sock)
+        respuesta = json.loads(mensaje[2:])
+        resp = respuesta["reservas"]
+        print(respuesta)
     else:
         menuCliente()
 
@@ -241,7 +247,7 @@ def menuBuscarLocal():
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-        Respuesta:"""
+    Respuesta:"""
             respuesta = input(menu)
             if respuesta != "":
                 respuesta = respuesta.split(",")
@@ -251,14 +257,14 @@ def menuBuscarLocal():
                 contenido = {"id_usuario": sesion["id"], "id_local":respuesta[0], "nombre_usuario":sesion["usuario"],"año":respuesta[3],"dia":respuesta[1],"mes":respuesta[2]}
                 enviarTransaccion(sock,json.dumps(contenido),REALIZAR_RESERVAS)
                 serv2, mensaje2=escucharBus(sock)
-                print(serv2,mensaje2)
+                # print(serv2,mensaje2)
                 mensaje2 =  json.loads(mensaje2[2:])
                 if not "error" in mensaje2.keys() :
                     menu = f"""
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ Rezerva realisada con exito                                           ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-        dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
+    dia:"""+respuesta[1]+"/"+respuesta[2]+"/"+respuesta[3]
                     respuesta = input(menu)
                     menuCliente()
                 else :
@@ -266,7 +272,7 @@ def menuBuscarLocal():
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ No se pudo realizar la reserva                                        ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-        Respuesta:"""
+    presione enter para continuar"""
                     respuesta = input(menu)
                     menuCliente()
             else:

@@ -38,14 +38,18 @@ if __name__ == "__main__":
                 query_obtener_local="SELECT id from local WHERE id_administrador= ?"
                 cursor= conexion.execute(query_obtener_local,(diccionario["id_usuario"],))
                 local=cursor.fetchone()
-                query_obtener_reservas = "SELECT reserva.id,usuario.nombre,reserva.fecha FROM reserva JOIN usuario on usuario.id=reserva.id_cliente WHERE fecha >= ? AND id_local = ? ORDER BY fecha ASC"
-                cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),local[0]))
-                reservas = cursor.fetchall()
-                for i in reservas:
-                    print(i)
-                respuesta = {"reservas":reservas}
-                enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
-
+                if local:
+                    query_obtener_reservas = "SELECT reserva.id,usuario.nombre,reserva.fecha FROM reserva JOIN usuario on usuario.id=reserva.id_cliente WHERE fecha >= ? AND id_local = ? ORDER BY fecha ASC"
+                    cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),local[0]))
+                    reservas = cursor.fetchall()
+                    for i in reservas:
+                        print(i)
+                    respuesta = {"reservas":reservas}
+                    enviarTransaccion(sock, json.dumps(respuesta), SERVICIO)
+                else: 
+                    respuesta={'error':'No posees locales'}
+                    enviarTransaccion(sock,json.dumps(respuesta),SERVICIO)
+                    
             elif diccionario['buscarPor']== "cliente":
                 query_obtener_reservas= "SELECT reserva.id,local.nombre,local.comuna,fecha FROM reserva JOIN local ON local.id=reserva.id_local WHERE fecha >= ? AND id_cliente= ? ORDER BY fecha ASC"#nombre local
                 cursor = conexion.execute(query_obtener_reservas,(datetime.datetime.now(),diccionario['id_usuario']))

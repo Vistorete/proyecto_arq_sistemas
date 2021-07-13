@@ -1,6 +1,6 @@
 import sqlite3
 
-conexion = sqlite3.connect("bdd.db")
+conexion = sqlite3.connect("bdd2.db")
 
 
 def crearBase():
@@ -19,7 +19,9 @@ def crearBase():
             descripcion text,
             comuna text,
             tipo_comida text,
-            reservas_maxima integer
+            reservas_maxima integer,
+            horario_inicio text,
+            horario_cierre text
         );
     """)
     conexion.execute("""

@@ -195,14 +195,25 @@ def menuReservas():
         enviarTransaccion(sock,json.dumps(contenido),ELIMINAR)
         serv, mensaje=escucharBus(sock)
         respuesta = json.loads(mensaje[2:])
+        resp = respuesta["respuesta"]
         print(respuesta)
-        menu3 = """
+        if respuesta == "reservas eliminadas":
+            menu3 = """
     ╔═══════════════════════════════════════════════════════════════════════╗
     ║ reserva eliminada                                                     ║
     ╚═══════════════════════════════════════════════════════════════════════╝
-    """
-        opcionElegida = input(menu3)    
-        menuReservas()
+        """
+            opcionElegida = input(menu3)
+            menuReservas()
+        else:
+            menu3 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ error al eliminar reserva                                             ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+        """
+            opcionElegida = input(menu3)
+            menuReservas()
+
     else:
         menuCliente()
 

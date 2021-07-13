@@ -115,7 +115,9 @@ def menuReservas():
     respuesta = json.loads(mensaje[2:])
     resp = respuesta["reservas"]
     # print(respuesta)
-    if resp != "":
+    if Respuesta["error"] != "":
+        menuReservas()
+    else:
         for reserva in resp:
             info = f"""            ════════════════════════════════
                 ID usuario: {reserva[0]}
@@ -156,8 +158,6 @@ def menuReservas():
             """
                 opcionElegida = input(menu3)
                 menuReservas()
-    else:
-        menuAdmin()
 
 def menuRegistrarse():
     nombreUsuario = None

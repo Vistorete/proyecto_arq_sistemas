@@ -29,31 +29,30 @@ if __name__ == "__main__":
         else:
             diccionario = json.loads(msg) # {"rol": "administrador"/"cliente", "borrarPor": "id"/"todo","id":id cliente/local, "id_reserva":id de reserva}
 
-            if diccionario["rol"] == "administrador":
+            if diccionario["borrarPor"] == "administrador":
                 query_obtener_local= """SELECT id FROM local WHERE id_administrador = ?"""
-                cursor=conexion.execute(query_obtener_local,(diccionario["id"],))
+                cursor=conexion.execute(query_obtener_local,(diccionario["id_usuario"],))
                 local=cursor.fetchone()
                 
-                if diccionario["borrarPor"]=="id":#el admin borra una reserva mediante el id_reserva.
+                if diccionario["metodo"]=="id":#el admin borra una reserva mediante el id_reserva.
                     query_borrar_reservas_local="""DELETE FROM reservas WHERE id = ? and id_local = ?"""
                     cursor=conexion.execute(query_borrar_reservas_local,(diccionario["id_reserva"],local))
 
-                elif diccionario["borrarPor"]=="todo":#el admin borra todas las reservas de su local
+                elif diccionario["metodo"]=="todo":#el admin borra todas las reservas de su local
                     query_borrar_reservas_local= "DELETE FROM reservas WHERE id_local = ?"
                     cursor=conexion.execute(query_borrar_reservas_local,(local,))
 
-                
-
-            elif diccionario["rol"] == "cliente":
-                if diccionario["borraPor"]== "id":
+            
+            elif diccionario["borrarPor"] == "cliente":
+                if diccionario["metodo"]== "id":
                 
                     query_borrar_reservas_local=""" DELETE FROM reservas WHERE id = ? AND id_cliente = ?"""
-                    cursor=conexion.execute(query_borrar_reservas_local,(diccionario["id_reserva"],diccionario["id"]))
+                    cursor=conexion.execute(query_borrar_reservas_local,(diccionario["id_reserva"],diccionario["id_usuario"]))
                 
-                elif diccionario["borraPor"]== "todo":
+                elif diccionario["metodo"]== "todo":
 
                     query_borrar_reservas_local="""DELETE FROM reservas WHERE id_cliente = ?"""
-                    cursor=conexion.execute(query_borrar_reservas_local,(diccionario["id"],))
+                    cursor=conexion.execute(query_borrar_reservas_local,(diccionario["id_usuario"],))
             
         respuesta={'respuesta':"reservas eliminadas"}
         enviarTransaccion(sock,json.dumps(respuesta),SERVICIO)

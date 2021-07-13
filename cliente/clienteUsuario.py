@@ -184,7 +184,7 @@ def menuReservas():
 
     menu2 = """
     ╔═══════════════════════════════════════════════════════════════════════╗
-    ║ 1) Eliminar reserva                                                   ║
+    ║ Eliminar reserva (ID de la reserva)                                   ║
     ╠═══════════════════════════════════════════════════════════════════════╣
     ║ vacio para salir                                                      ║
     ╚═══════════════════════════════════════════════════════════════════════╝
@@ -196,6 +196,12 @@ def menuReservas():
         serv, mensaje=escucharBus(sock)
         respuesta = json.loads(mensaje[2:])
         print(respuesta)
+        menu3 = """
+    ╔═══════════════════════════════════════════════════════════════════════╗
+    ║ reserva eliminada                                                     ║
+    ╚═══════════════════════════════════════════════════════════════════════╝
+    """
+        opcionElegida = input(menu3)    
         menuReservas()
     else:
         menuCliente()

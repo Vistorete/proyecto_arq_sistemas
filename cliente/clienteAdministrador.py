@@ -7,7 +7,6 @@ LOGIN = "logi9" #Registro de usuarios
 BUSCAR = "busc9"
 REGISTRAR_LOCAL = "rglc9"
 REVISAR_RESERVAS = "rvac9"
-ELIMINAR = "dlrv9"
 
 sesion = {"id": None,"usuario":None,"rol":None}
 sock = None
